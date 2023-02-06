@@ -27,10 +27,10 @@ BitesCookBook:SetScript("OnEvent", BitesCookBook.OnEvent)
 function BitesCookBook:OnEvent(self, event, addonName)
 	if event == "ADDON_LOADED" and addOnName ~= "BitesCookBook" then return end
         if BitesCookBook_SavedVariables == nil then
-            BitesCookBook_SavedVariables = self.options
+            BitesCookBook_SavedVariables = self.Options
         else
-            -- If new options were added since last file was saved, we must update it.
-            for key, option_value in pairs(self.options) do
+            -- If new Options were added since last file was saved, we must update it.
+            for key, option_value in pairs(self.Options) do
                 if BitesCookBook_SavedVariables[key] == nil then
                     print("added ".. key .." to saved variables.")
                     BitesCookBook_SavedVariables[key] = option_value
@@ -39,14 +39,14 @@ function BitesCookBook:OnEvent(self, event, addonName)
 
             -- if an option was removed, we must also remove it from the saved variables.
             for key, option_value in pairs(BitesCookBook_SavedVariables) do
-                if self.options[key] == nil then
+                if self.Options[key] == nil then
                     print("removed ".. key .." from saved variables.")
                     BitesCookBook_SavedVariables[key] = nil
                 end
             end
 
-            -- Let options be the (updated) saved variables.
-            self.options = BitesCookBook_SavedVariables
+            -- Let Options be the (updated) saved variables.
+            self.Options = BitesCookBook_SavedVariables
         end
         self:InitializeOptionsMenu()
 
@@ -68,8 +68,8 @@ function BitesCookBook:InitializeOptionsMenu()
         -- Iterate over the frames and disable them if the option is checked.
         for i, frame_name in ipairs(AffectedFrames) do
             AffectedFrame = BitesCookBook_ConfigFrame[frame_name]
-            if not BitesCookBook.options["show_ingredient_tooltip"] then
-                BitesCookBook.options[frame_name] = false
+            if not BitesCookBook.Options["show_ingredient_tooltip"] then
+                BitesCookBook.Options[frame_name] = false
                 AffectedFrame:Disable()
                 AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
     
@@ -89,8 +89,8 @@ function BitesCookBook:InitializeOptionsMenu()
         -- Iterate over the frames and disable them if the option is checked.
         for i, frame_name in ipairs(AffectedFrames) do
             AffectedFrame = BitesCookBook_ConfigFrame[frame_name]
-            if BitesCookBook.options["hide_meals_but_hint"] then
-                BitesCookBook.options[frame_name] = false
+            if BitesCookBook.Options["hide_meals_but_hint"] then
+                BitesCookBook.Options[frame_name] = false
                 AffectedFrame:Disable()
                 AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
     
@@ -106,8 +106,8 @@ function BitesCookBook:InitializeOptionsMenu()
     
     PreventLevelRange = function()
         AffectedFrame = BitesCookBook_ConfigFrame["show_recipe_level_range_on_ingredient"]
-        if not BitesCookBook.options["show_recipe_level_start_on_ingredient"] then
-            BitesCookBook.options["show_recipe_level_range_on_ingredient"] = false
+        if not BitesCookBook.Options["show_recipe_level_start_on_ingredient"] then
+            BitesCookBook.Options["show_recipe_level_range_on_ingredient"] = false
             AffectedFrame:Disable()
             AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
     
@@ -120,8 +120,8 @@ function BitesCookBook:InitializeOptionsMenu()
     
     PreventColor = function()
         AffectedFrame = BitesCookBook_ConfigFrame["color_meal"]
-        if BitesCookBook.options["gray_minimum_rank"] then
-            BitesCookBook.options["color_meal"] = false
+        if BitesCookBook.Options["gray_minimum_rank"] then
+            BitesCookBook.Options["color_meal"] = false
             AffectedFrame:Disable()
             AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
     
@@ -134,8 +134,8 @@ function BitesCookBook:InitializeOptionsMenu()
     
     PreventGray = function()
         AffectedFrame = BitesCookBook_ConfigFrame["gray_minimum_rank"]
-        if BitesCookBook.options["color_meal"] then
-            BitesCookBook.options["gray_minimum_rank"] = false
+        if BitesCookBook.Options["color_meal"] then
+            BitesCookBook.Options["gray_minimum_rank"] = false
             AffectedFrame:Disable()
             AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
     
@@ -152,7 +152,7 @@ function BitesCookBook:InitializeOptionsMenu()
         InterfaceOptions_AddCategory(BitesCookBook_ConfigFrame)
     
     
-        BitesCookBook_ConfigFrame.Ingredients = CreateTitle("Ingredients", "Ingredient Tooltips", "These are options that modify which recipe-information is shown on the tooltip of ingredients.")
+        BitesCookBook_ConfigFrame.Ingredients = CreateTitle("Ingredients", "Ingredient Tooltips", "These are Options that modify which recipe-information is shown on the tooltip of ingredients.")
     
         CreateCheckBox("show_ingredient_tooltip", "Show ingredient tooltips.", PreventAllIngredients)    
         CreateCheckBox("hide_meals_but_hint", "Only show if an item is used for cooking.", PreventAllIngredientsFromHint)
@@ -175,17 +175,17 @@ function BitesCookBook:InitializeOptionsMenu()
         BitesCookBook_ConfigFrame.max_level:SetPoint("TOPLEFT", 10, -Position - DeltaP_Box)
         BitesCookBook_ConfigFrame.max_level:SetScript("OnValueChanged",
         function(self, value)
-            BitesCookBook.options.max_level = value
-            BitesCookBook_ConfigFrame.max_level.text:SetText("Rank threshold "..BitesCookBook.options.max_level)
+            BitesCookBook.Options.max_level = value
+            BitesCookBook_ConfigFrame.max_level.text:SetText("Rank threshold "..BitesCookBook.Options.max_level)
         end)
         BitesCookBook_ConfigFrame.max_level.text = BitesCookBook_ConfigFrame.max_level:CreateFontString(nil, "ARTWORK", "GameFontNormal")
         BitesCookBook_ConfigFrame.max_level.text:SetPoint("BOTTOMLEFT", BitesCookBook_ConfigFrame.max_level, "TOPLEFT", 0, 0)
-        BitesCookBook_ConfigFrame.max_level.text:SetText("Rank threshold "..BitesCookBook.options.max_level)
-        BitesCookBook_ConfigFrame.max_level:SetValue(BitesCookBook.options.max_level)
+        BitesCookBook_ConfigFrame.max_level.text:SetText("Rank threshold "..BitesCookBook.Options.max_level)
+        BitesCookBook_ConfigFrame.max_level:SetValue(BitesCookBook.Options.max_level)
     
         Position = Position + DeltaP_Box + 20
         
-        BitesCookBook_ConfigFrame.Recipes = CreateTitle("Recipes", "Recipe Tooltips", "These are options that modify which ingerdient-information is shown on the tooltip of ingredients.")
+        BitesCookBook_ConfigFrame.Recipes = CreateTitle("Recipes", "Recipe Tooltips", "These are Options that modify which ingerdient-information is shown on the tooltip of ingredients.")
         CreateCheckBox("show_recipe_tooltip", "Show meal/recipe tooltips.")
     
         BitesCookBook_ConfigFrame.Misc = CreateTitle("Misc", "Miscellaneous", "")
@@ -201,41 +201,41 @@ function BitesCookBook:InitializeOptionsMenu()
         BitesCookBook_ConfigFrame.show_or_hide.text:SetPoint("BOTTOMLEFT", BitesCookBook_ConfigFrame.show_or_hide, "TOPLEFT", 21, 0)
         BitesCookBook_ConfigFrame.show_or_hide.text:SetText("When modifier key is pressed:")
         
-        if BitesCookBook.options.show_on_modifier == 0 then
+        if BitesCookBook.Options.show_on_modifier == 0 then
             UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Do nothing")
-        elseif BitesCookBook.options.show_on_modifier == True then
+        elseif BitesCookBook.Options.show_on_modifier == True then
             UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Show tooltip")
         else
             UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Hide tooltip")
         end
     
-        -- Add the options to the dropdown.
+        -- Add the Options to the dropdown.
         UIDropDownMenu_Initialize(BitesCookBook_ConfigFrame.show_or_hide, function(self, level, menuList)
             local info = UIDropDownMenu_CreateInfo()
             info.text, info.arg1, info.func, info.checked = "Do nothing", "Do nothing",
             function(self)
-                BitesCookBook.options.show_on_modifier = 0
+                BitesCookBook.Options.show_on_modifier = 0
                 UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Do nothing")
             end,
-            BitesCookBook.options.show_on_modifier == 0
+            BitesCookBook.Options.show_on_modifier == 0
             UIDropDownMenu_AddButton(info)
     
             --------------------
             info.text, info.arg1, info.func, info.checked = "Show tooltip", "Show tooltip",
             function(self)
-                BitesCookBook.options.show_on_modifier = true
+                BitesCookBook.Options.show_on_modifier = true
                 UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Show tooltip")
             end,
-            BitesCookBook.options.show_on_modifier == true
+            BitesCookBook.Options.show_on_modifier == true
             UIDropDownMenu_AddButton(info)
             
             --------------------
             info.text, info.arg1, info.func, info.checked = "Hide tooltip", "Hide tooltip",
             function(self)
-                BitesCookBook.options.show_on_modifier = false
+                BitesCookBook.Options.show_on_modifier = false
                 UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Hide tooltip")
             end,
-            BitesCookBook.options.show_on_modifier == false
+            BitesCookBook.Options.show_on_modifier == false
             UIDropDownMenu_AddButton(info)
         end)
     
@@ -246,33 +246,33 @@ function BitesCookBook:InitializeOptionsMenu()
         BitesCookBook_ConfigFrame.modifier.text:SetPoint("BOTTOMLEFT", BitesCookBook_ConfigFrame.modifier, "TOPLEFT", 21, 0)
         BitesCookBook_ConfigFrame.modifier.text:SetText("Reveal Tooltip Key")
         
-        UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.options.modifier_key.. " Key")
+        UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.modifier_key.. " Key")
     
-        -- Add the options to the dropdown.
+        -- Add the Options to the dropdown.
         UIDropDownMenu_Initialize(BitesCookBook_ConfigFrame.modifier, function(self, level, menuList)
             local info = UIDropDownMenu_CreateInfo()
             info.text, info.arg1, info.func, info.checked = "SHIFT Key", "SHIFT Key",
             function(self)
-                BitesCookBook.options.modifier_key = "SHIFT"
-                UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.options.modifier_key.. " Key")
+                BitesCookBook.Options.modifier_key = "SHIFT"
+                UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.modifier_key.. " Key")
             end,
-            BitesCookBook.options.modifier_key == "SHIFT"
+            BitesCookBook.Options.modifier_key == "SHIFT"
             UIDropDownMenu_AddButton(info)
     
             info.text, info.arg1, info.func, info.checked = "CTRL Key", "CTRL Key",
             function(self)
-                BitesCookBook.options.modifier_key = "CTRL"
-                UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.options.modifier_key.. " Key")
+                BitesCookBook.Options.modifier_key = "CTRL"
+                UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.modifier_key.. " Key")
             end,
-            BitesCookBook.options.modifier_key == "CTRL"
+            BitesCookBook.Options.modifier_key == "CTRL"
             UIDropDownMenu_AddButton(info)
     
             info.text, info.arg1, info.func, info.checked = "ALT Key", "ALT Key",
             function(self)
-                BitesCookBook.options.modifier_key = "ALT"
-                UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.options.modifier_key.. " Key")
+                BitesCookBook.Options.modifier_key = "ALT"
+                UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.modifier_key.. " Key")
             end,
-            BitesCookBook.options.modifier_key == "ALT"
+            BitesCookBook.Options.modifier_key == "ALT"
             UIDropDownMenu_AddButton(info)
         end)
     end
@@ -343,10 +343,10 @@ function BitesCookBook:CreateCheckBox(Name, Description, ExtraFunction) -- Warni
     -- BitesCookBook_ConfigFrame[Name].text:SetText("|cffffffff".. Description.. "|r")
     BitesCookBook_ConfigFrame[Name].text:SetText(Description)
     BitesCookBook_ConfigFrame[Name].text:SetTextColor(1, 1, 1, 1)
-    BitesCookBook_ConfigFrame[Name]:SetChecked(BitesCookBook.options[Name])
+    BitesCookBook_ConfigFrame[Name]:SetChecked(BitesCookBook.Options[Name])
     BitesCookBook_ConfigFrame[Name]:SetScript("OnClick",
         function()
-            BitesCookBook.options[Name] = not BitesCookBook.options[Name]
+            BitesCookBook.Options[Name] = not BitesCookBook.Options[Name]
 
             -- Sometimes we want to do something extra after the checkbox is clicked.
             if ExtraFunction ~= nil then
