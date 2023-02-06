@@ -3,8 +3,8 @@ local CookingSkillRank
 local ingredients
 
 -- When the addon is loaded, we want to get the player's cooking skill, and create a list of all ingredients.
-function OnEvent(self, event, ...)
-    if event == "ADDON_LOADED" and ... == "BitesCookBook" then
+function OnEvent(self, event, addonName)
+    if event == "ADDON_LOADED" and addonName == "BitesCookBook" then
         -- Get the player's cooking skill.
         print("Addon has loaded")
         CookingSkillRank = GetSkillLevel("Cooking")
