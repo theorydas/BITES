@@ -17,16 +17,12 @@ BitesCookBook.Options = {
 local Position = -10
 local DeltaP_Box = 29
 
-BitesCookBook:RegisterEvent("CHAT_MSG_SKILL")
-BitesCookBook:RegisterEvent("ADDON_LOADED")
-BitesCookBook:SetScript("OnEvent", BitesCookBook.OnEvent)
-
-function BitesCookBook:OnEvent(self, event, addonName)
+function OnEvent(self, event, addonName)
     -- We want to update the player's cooking skill when they level up.
     if event == "CHAT_MSG_SKILL" then
         BitesCookBook.CookingSkillRank = BitesCookBook:GetSkillLevel("Cooking")
         return -- We don't want to do anything else.
-    elseif event == "ADDON_LOADED" and addOnName ~= "BitesCookBook" then
+    elseif event == "ADDON_LOADED" and addonName ~= "BitesCookBook" then
         return
     end
 
@@ -57,10 +53,18 @@ function BitesCookBook:OnEvent(self, event, addonName)
 
     -- Get the player's cooking skill, and create a list for all ingredients.
     BitesCookBook.CookingSkillRank = BitesCookBook:GetSkillLevel("Cooking")
-    BitesCookBook.Ingredients = BitesCookBook:GetAllIngredients(recipes)
+    BitesCookBook.Ingredients = BitesCookBook:GetAllIngredients(BitesCookBook.Recipes)
+    -- print the length of the list.
+    print("Number of ingredients: ".. #BitesCookBook.Ingredients)
+    -- and the cooking skill.
+    print("Cooking skill: ".. BitesCookBook.CookingSkillRank)
 
     self:UnregisterEvent(event)
 end
+
+BitesCookBook:RegisterEvent("CHAT_MSG_SKILL")
+BitesCookBook:RegisterEvent("ADDON_LOADED")
+BitesCookBook:SetScript("OnEvent", OnEvent)
 
 PreventAllIngredients = function()
     AffectedFrames = {"show_recipe_level_start_on_ingredient", "show_recipe_level_range_on_ingredient", "hide_meals_but_hint", "gray_minimum_rank", "color_meal", show_recipe_icon}
@@ -152,18 +156,18 @@ function BitesCookBook:InitializeOptionsMenu()
         InterfaceOptions_AddCategory(BitesCookBook_ConfigFrame)
     
     
-        BitesCookBook_ConfigFrame.Ingredients = CreateTitle("Ingredients", "Ingredient Tooltips", "These are Options that modify which recipe-information is shown on the tooltip of ingredients.")
+        BitesCookBook_ConfigFrame.Ingredients = BitesCookBook:CreateTitle("Ingredients", "Ingredient Tooltips", "These are Options that modify which recipe-information is shown on the tooltip of ingredients.")
     
-        CreateCheckBox("show_ingredient_tooltip", "Show ingredient tooltips.", PreventAllIngredients)    
-        CreateCheckBox("hide_meals_but_hint", "Only show if an item is used for cooking.", PreventAllIngredientsFromHint)
+        BitesCookBook:CreateCheckBox("show_ingredient_tooltip", "Show ingredient tooltips.", PreventAllIngredients)    
+        BitesCookBook:CreateCheckBox("hide_meals_but_hint", "Only show if an item is used for cooking.", PreventAllIngredientsFromHint)
     
-        CreateCheckBox("show_recipe_level_start_on_ingredient", "Show at what skill level a meal becomes available.", PreventLevelRange)
-        AllLevelRangesBox = CreateCheckBox("show_recipe_level_range_on_ingredient", "Also show at what subsequent sill-levels the meal's efficiency changes.")
+        BitesCookBook:CreateCheckBox("show_recipe_level_start_on_ingredient", "Show at what skill level a meal becomes available.", PreventLevelRange)
+        AllLevelRangesBox = BitesCookBook:CreateCheckBox("show_recipe_level_range_on_ingredient", "Also show at what subsequent sill-levels the meal's efficiency changes.")
         AllLevelRangesBox:SetPoint("TOPLEFT", 20 + 20, -Position + DeltaP_Box)
 
-        CreateCheckBox("gray_minimum_rank", "Gray out recipes that are not yet available to your rank.", PreventColor)
-        CreateCheckBox("color_meal", "Color a meal according to your rank.", PreventGray)
-        CreateCheckBox("show_recipe_icon", "Show a picture of the meal.")
+        BitesCookBook:CreateCheckBox("gray_minimum_rank", "Gray out recipes that are not yet available to your rank.", PreventColor)
+        BitesCookBook:CreateCheckBox("color_meal", "Color a meal according to your rank.", PreventGray)
+        BitesCookBook:CreateCheckBox("show_recipe_icon", "Show a picture of the meal.")
     
         -- A horizontal sliding bar that controls the max level.
         BitesCookBook_ConfigFrame.max_level = CreateFrame("Slider", "BitesCookBook_MaxLevel", BitesCookBook_ConfigFrame, "OptionsSliderTemplate")
@@ -185,10 +189,10 @@ function BitesCookBook:InitializeOptionsMenu()
     
         Position = Position + DeltaP_Box + 20
         
-        BitesCookBook_ConfigFrame.Recipes = CreateTitle("Recipes", "Recipe Tooltips", "These are Options that modify which ingerdient-information is shown on the tooltip of ingredients.")
-        CreateCheckBox("show_recipe_tooltip", "Show meal/recipe tooltips.")
+        BitesCookBook_ConfigFrame.Recipes = BitesCookBook:CreateTitle("Recipes", "Recipe Tooltips", "These are Options that modify which ingerdient-information is shown on the tooltip of ingredients.")
+        BitesCookBook:CreateCheckBox("show_recipe_tooltip", "Show meal/recipe tooltips.")
     
-        BitesCookBook_ConfigFrame.Misc = CreateTitle("Misc", "Miscellaneous", "")
+        BitesCookBook_ConfigFrame.Misc = BitesCookBook:CreateTitle("Misc", "Miscellaneous", "")
     
         PreventColor()
         PreventGray()

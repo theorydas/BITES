@@ -33,26 +33,26 @@ end
 
 function BitesCookBook:BuildTooltipForIngredient(id)
     --- Shows all available recipes for that ingredient.
-    if ingredients[id] ~= nil then
+    if BitesCookBook.Ingredients[id] ~= nil then
         local text = "\n"
         -- Cycle through all materials in a recipe to create the tooltip.
         text = text .. "Ingredient for:"
 
-        for _, RecipeID in ipairs(ingredients[id]) do
-            ItemColor, ItemName = GetItem(RecipeID)
-            
-            if CookingSkillRank >= BitesCookBook.Recipes[RecipeID]["Range"][1] - BitesCookBook.Options.max_level then
+        for _, RecipeID in ipairs(BitesCookBook.Ingredients[id]) do
+            ItemColor, ItemName = BitesCookBook:GetItem(RecipeID)
+
+            if BitesCookBook.CookingSkillRank >= BitesCookBook.Recipes[RecipeID]["Range"][1] - BitesCookBook.Options.max_level then
                 if ItemColor ~= "|cffff0000" then -- We do not want to override errors by mistake.
-                    if BitesCookBook.Options.gray_minimum_rank and BitesCookBook.Recipes[RecipeID]["Range"][1] > CookingSkillRank then
+                    if BitesCookBook.Options.gray_minimum_rank and BitesCookBook.Recipes[RecipeID]["Range"][1] > BitesCookBook.CookingSkillRank then
                         ItemColor = "|c007d7d7d" -- Gray color.
                     elseif BitesCookBook.Options.color_meal then
-                        if CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][1] then
+                        if BitesCookBook.CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][1] then
                             ItemColor = "|c00FF0000" -- Red color.
-                        elseif CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][2]then
+                        elseif BitesCookBook.CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][2]then
                             ItemColor = "|c00FF7F00" -- Orange color.
-                        elseif CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][3] then
+                        elseif BitesCookBook.CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][3] then
                             ItemColor = "|c00FFFF00" -- Yellow color.
-                        elseif CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][4] then
+                        elseif BitesCookBook.CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][4] then
                             ItemColor = "|cff1eff00" -- Green color.
                         else
                             ItemColor = "|c007d7d7d" -- Gray color.
