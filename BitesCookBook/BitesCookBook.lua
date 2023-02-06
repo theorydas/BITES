@@ -3,10 +3,6 @@
 -- =================================================================================================
 
 function BitesCookBook:GetItem(id)
-    if id == nil then
-        return -- No id, no color.
-    end
-
     ItemColor = "|r|cffffffff" -- Default color is white. |r is needed to reset the color and prevents leaks.
     ItemName = C_Item.GetItemNameByID(id)
 
