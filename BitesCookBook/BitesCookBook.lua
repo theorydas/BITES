@@ -1,3 +1,9 @@
+local modifier_key_functions = {
+    ["SHIFT"] = IsShiftKeyDown,
+    ["ALT"] = IsAltKeyDown,
+    ["CTRL"] = IsControlKeyDown,
+}
+
 function BitesCookBook:GetItem(id)
     ItemColor = "|r|cffffffff" -- Default color is white. |r is needed to reset the color and prevents leaks.
     ItemName = C_Item.GetItemNameByID(id)
@@ -40,7 +46,7 @@ function BitesCookBook:BuildTooltipForIngredient(id)
 
         for _, RecipeID in ipairs(BitesCookBook.Ingredients[id]) do
             ItemColor, ItemName = BitesCookBook:GetItem(RecipeID)
-
+            
             if BitesCookBook.CookingSkillRank >= BitesCookBook.Recipes[RecipeID]["Range"][1] - BitesCookBook.Options.max_level then
                 if ItemColor ~= "|cffff0000" then -- We do not want to override errors by mistake.
                     if BitesCookBook.Options.gray_minimum_rank and BitesCookBook.Recipes[RecipeID]["Range"][1] > BitesCookBook.CookingSkillRank then
