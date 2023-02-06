@@ -1,4 +1,4 @@
-local recipes
+local recipes = BitesCookBook_Recipes
 local CookingSkillRank
 local ingredients
 
@@ -9,7 +9,7 @@ function OnEvent(self, event, ...)
         print("Addon has loaded")
         CookingSkillRank = GetSkillLevel("Cooking")
         -- Create a list of all ingredients.
-        ingredients = GetAllIngredients(recipe)
+        ingredients = GetAllIngredients(recipes)
 
         -- Unregister the event, we do not need it anymore.
         self:UnregisterEvent("ADDON_LOADED");
