@@ -4,6 +4,9 @@
 ## Version: 1.0
 ## Description: Shows which items can be used in cooking, and what are they used for.
 ## DefaultState: enabled
+
+## SavedVariablesPerCharacter: BitesCookBook_SavedVariables
+
 BitesCookBookOptions.lua
 CookingRecipes.lua
 BitesCookBook.lua
