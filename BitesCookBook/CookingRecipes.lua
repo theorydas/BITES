@@ -1,4 +1,4 @@
-local recipes = {
+BitesCookBook.Recipes = {
 	[2679] = { -- Charred Wolf Meat
 		["Amount"] = 1,
 		["Range"] = {0, 45, 65, 85},
@@ -804,5 +804,3 @@ local recipes = {
 	},
 
 }
-
-BitesCookBook_Recipes = recipes

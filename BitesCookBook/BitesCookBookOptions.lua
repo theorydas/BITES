@@ -1,6 +1,5 @@
 BitesCookBook = CreateFrame("Frame")
 BitesCookBook.Ingredients
-BitesCookBook.Recipes
 BitesCookBook.CookingSkillRank
 BitesCookBook.Options = {
 	show_ingredient_tooltip = true,
