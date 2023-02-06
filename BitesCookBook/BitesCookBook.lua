@@ -1,7 +1,3 @@
--- =================================================================================================
--- Handle tooltips
--- =================================================================================================
-
 function BitesCookBook:GetItem(id)
     ItemColor = "|r|cffffffff" -- Default color is white. |r is needed to reset the color and prevents leaks.
     ItemName = C_Item.GetItemNameByID(id)
@@ -18,12 +14,12 @@ end
 function BitesCookBook:BuildTooltipForRecipe(id)
     --- Shows all materials needed for a recipe.
 
-    if recipes[id] ~= nil then
+    if BitesCookBook.Recipes[id] ~= nil then
         local text = "\n"
         
         -- Cycle through all materials in a recipe to create the tooltip.
         text = text .. "Recipe:"
-        for itemID, count in pairs(recipes[id].Materials) do
+        for itemID, count in pairs(BitesCookBook.Recipes[id].Materials) do
             ItemColor, ItemName = BitesCookBook:GetItem(itemID)
             
             text = text .."\n    ".. ItemColor.. count .. " x " .. ItemName
@@ -45,18 +41,18 @@ function BitesCookBook:BuildTooltipForIngredient(id)
         for _, RecipeID in ipairs(ingredients[id]) do
             ItemColor, ItemName = GetItem(RecipeID)
             
-            if CookingSkillRank >= recipes[RecipeID]["Range"][1] - BitesCookBook.Options.max_level then
+            if CookingSkillRank >= BitesCookBook.Recipes[RecipeID]["Range"][1] - BitesCookBook.Options.max_level then
                 if ItemColor ~= "|cffff0000" then -- We do not want to override errors by mistake.
-                    if BitesCookBook.Options.gray_minimum_rank and recipes[RecipeID]["Range"][1] > CookingSkillRank then
+                    if BitesCookBook.Options.gray_minimum_rank and BitesCookBook.Recipes[RecipeID]["Range"][1] > CookingSkillRank then
                         ItemColor = "|c007d7d7d" -- Gray color.
                     elseif BitesCookBook.Options.color_meal then
-                        if CookingSkillRank <= recipes[RecipeID]["Range"][1] then
+                        if CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][1] then
                             ItemColor = "|c00FF0000" -- Red color.
-                        elseif CookingSkillRank <= recipes[RecipeID]["Range"][2]then
+                        elseif CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][2]then
                             ItemColor = "|c00FF7F00" -- Orange color.
-                        elseif CookingSkillRank <= recipes[RecipeID]["Range"][3] then
+                        elseif CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][3] then
                             ItemColor = "|c00FFFF00" -- Yellow color.
-                        elseif CookingSkillRank <= recipes[RecipeID]["Range"][4] then
+                        elseif CookingSkillRank <= BitesCookBook.Recipes[RecipeID]["Range"][4] then
                             ItemColor = "|cff1eff00" -- Green color.
                         else
                             ItemColor = "|c007d7d7d" -- Gray color.
@@ -76,7 +72,7 @@ function BitesCookBook:BuildTooltipForIngredient(id)
                 end
 
                 if BitesCookBook.Options.show_recipe_level_start_on_ingredient then
-                    range = recipes[RecipeID]["Range"]
+                    range = BitesCookBook.Recipes[RecipeID]["Range"]
                     -- range[1] = recipes[RecipeID]["Range"][1]
                     if range[1] > 1 then -- If the first number is 1, it is a default recipe.
                         text = text .. string.format("|r-|c00FF7F00%s|r", range[1])
@@ -96,7 +92,7 @@ function BitesCookBook:BuildTooltipForIngredient(id)
     end
 end
 
-function BitesCookBook:OnTooltipSetItem(tooltip)
+function BitesCookBook.OnTooltipSetItem(tooltip)
     if not BitesCookBook.Options.show_ingredient_tooltip and not BitesCookBook.Options.show_recipe_tooltip then
         return
     end
@@ -136,4 +132,4 @@ function BitesCookBook:OnTooltipSetItem(tooltip)
     end
 end
 
-GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook:OnTooltipSetItem)
+GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnTooltipSetItem)
