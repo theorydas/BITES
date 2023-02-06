@@ -54,10 +54,6 @@ function OnEvent(self, event, addonName)
     -- Get the player's cooking skill, and create a list for all ingredients.
     BitesCookBook.CookingSkillRank = BitesCookBook:GetSkillLevel("Cooking")
     BitesCookBook.Ingredients = BitesCookBook:GetAllIngredients(BitesCookBook.Recipes)
-    -- print the length of the list.
-    print("Number of ingredients: ".. #BitesCookBook.Ingredients)
-    -- and the cooking skill.
-    print("Cooking skill: ".. BitesCookBook.CookingSkillRank)
 
     self:UnregisterEvent(event)
 end
