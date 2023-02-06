@@ -1,6 +1,4 @@
 BitesCookBook = CreateFrame("Frame")
-BitesCookBook.Ingredients
-BitesCookBook.CookingSkillRank
 BitesCookBook.Options = {
 	show_ingredient_tooltip = true,
 	show_recipe_level_range_on_ingredient = false,
@@ -24,40 +22,44 @@ BitesCookBook:RegisterEvent("ADDON_LOADED")
 BitesCookBook:SetScript("OnEvent", BitesCookBook.OnEvent)
 
 function BitesCookBook:OnEvent(self, event, addonName)
-	if event == "ADDON_LOADED" and addOnName ~= "BitesCookBook" then return end
-        if BitesCookBook_SavedVariables == nil then
-            BitesCookBook_SavedVariables = self.Options
-        else
-            -- If new Options were added since last file was saved, we must update it.
-            for key, option_value in pairs(self.Options) do
-                if BitesCookBook_SavedVariables[key] == nil then
-                    print("added ".. key .." to saved variables.")
-                    BitesCookBook_SavedVariables[key] = option_value
-                end
-            end
-
-            -- if an option was removed, we must also remove it from the saved variables.
-            for key, option_value in pairs(BitesCookBook_SavedVariables) do
-                if self.Options[key] == nil then
-                    print("removed ".. key .." from saved variables.")
-                    BitesCookBook_SavedVariables[key] = nil
-                end
-            end
-
-            -- Let Options be the (updated) saved variables.
-            self.Options = BitesCookBook_SavedVariables
-        end
-        self:InitializeOptionsMenu()
-
-        -- Get the player's cooking skill, and create a list for all ingredients.
+    -- We want to update the player's cooking skill when they level up.
+    if event == "CHAT_MSG_SKILL" then
         BitesCookBook.CookingSkillRank = BitesCookBook:GetSkillLevel("Cooking")
-        BitesCookBook.Ingredients = BitesCookBook:GetAllIngredients(recipes)
-
-        self:UnregisterEvent(event)
-    -- Additionally, we want to update the player's cooking skill when they level up.
-    else event == "CHAT_MSG_SKILL" then
-        BitesCookBook.CookingSkillRank = BitesCookBook:GetSkillLevel("Cooking")
+        return -- We don't want to do anything else.
+    elseif event == "ADDON_LOADED" and addOnName ~= "BitesCookBook" then
+        return
     end
+
+    if BitesCookBook_SavedVariables == nil then
+        BitesCookBook_SavedVariables = self.Options
+    else
+        -- If new Options were added since last file was saved, we must update it.
+        for key, option_value in pairs(self.Options) do
+            if BitesCookBook_SavedVariables[key] == nil then
+                print("added ".. key .." to saved variables.")
+                BitesCookBook_SavedVariables[key] = option_value
+            end
+        end
+
+        -- if an option was removed, we must also remove it from the saved variables.
+        for key, option_value in pairs(BitesCookBook_SavedVariables) do
+            if self.Options[key] == nil then
+                print("removed ".. key .." from saved variables.")
+                BitesCookBook_SavedVariables[key] = nil
+            end
+        end
+
+        -- Let Options be the (updated) saved variables.
+        self.Options = BitesCookBook_SavedVariables
+    end
+
+    self:InitializeOptionsMenu()
+
+    -- Get the player's cooking skill, and create a list for all ingredients.
+    BitesCookBook.CookingSkillRank = BitesCookBook:GetSkillLevel("Cooking")
+    BitesCookBook.Ingredients = BitesCookBook:GetAllIngredients(recipes)
+
+    self:UnregisterEvent(event)
 end
 
 function BitesCookBook:InitializeOptionsMenu()
