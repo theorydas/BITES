@@ -62,92 +62,91 @@ function BitesCookBook:OnEvent(self, event, addonName)
     self:UnregisterEvent(event)
 end
 
-function BitesCookBook:InitializeOptionsMenu()
-	PreventAllIngredients = function()
-        AffectedFrames = {"show_recipe_level_start_on_ingredient", "show_recipe_level_range_on_ingredient", "hide_meals_but_hint", "gray_minimum_rank", "color_meal", show_recipe_icon}
-        
-        -- Iterate over the frames and disable them if the option is checked.
-        for i, frame_name in ipairs(AffectedFrames) do
-            AffectedFrame = BitesCookBook_ConfigFrame[frame_name]
-            if not BitesCookBook.Options["show_ingredient_tooltip"] then
-                BitesCookBook.Options[frame_name] = false
-                AffectedFrame:Disable()
-                AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
+PreventAllIngredients = function()
+    AffectedFrames = {"show_recipe_level_start_on_ingredient", "show_recipe_level_range_on_ingredient", "hide_meals_but_hint", "gray_minimum_rank", "color_meal", show_recipe_icon}
     
-                AffectedFrame:SetChecked(false)
-            else
-                AffectedFrame:Enable()
-                AffectedFrame.text:SetTextColor(1, 1, 1)
-            end
-            -- Update other functions as well. What is the best way to do this?
-            PreventLevelRange()
-        end
-    end
-    
-    PreventAllIngredientsFromHint = function()
-        AffectedFrames = {"show_recipe_level_start_on_ingredient", "show_recipe_level_range_on_ingredient", "gray_minimum_rank", "color_meal", show_recipe_icon}
-        
-        -- Iterate over the frames and disable them if the option is checked.
-        for i, frame_name in ipairs(AffectedFrames) do
-            AffectedFrame = BitesCookBook_ConfigFrame[frame_name]
-            if BitesCookBook.Options["hide_meals_but_hint"] then
-                BitesCookBook.Options[frame_name] = false
-                AffectedFrame:Disable()
-                AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
-    
-                AffectedFrame:SetChecked(false)
-            else
-                AffectedFrame:Enable()
-                AffectedFrame.text:SetTextColor(1, 1, 1)
-            end
-            -- Update other functions as well. What is the best way to do this?
-            PreventLevelRange()
-        end
-    end
-    
-    PreventLevelRange = function()
-        AffectedFrame = BitesCookBook_ConfigFrame["show_recipe_level_range_on_ingredient"]
-        if not BitesCookBook.Options["show_recipe_level_start_on_ingredient"] then
-            BitesCookBook.Options["show_recipe_level_range_on_ingredient"] = false
+    -- Iterate over the frames and disable them if the option is checked.
+    for i, frame_name in ipairs(AffectedFrames) do
+        AffectedFrame = BitesCookBook_ConfigFrame[frame_name]
+        if not BitesCookBook.Options["show_ingredient_tooltip"] then
+            BitesCookBook.Options[frame_name] = false
             AffectedFrame:Disable()
             AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
-    
+
             AffectedFrame:SetChecked(false)
         else
             AffectedFrame:Enable()
             AffectedFrame.text:SetTextColor(1, 1, 1)
         end
+        -- Update other functions as well. What is the best way to do this?
+        PreventLevelRange()
     end
+end
+
+PreventAllIngredientsFromHint = function()
+    AffectedFrames = {"show_recipe_level_start_on_ingredient", "show_recipe_level_range_on_ingredient", "gray_minimum_rank", "color_meal", show_recipe_icon}
     
-    PreventColor = function()
-        AffectedFrame = BitesCookBook_ConfigFrame["color_meal"]
-        if BitesCookBook.Options["gray_minimum_rank"] then
-            BitesCookBook.Options["color_meal"] = false
+    -- Iterate over the frames and disable them if the option is checked.
+    for i, frame_name in ipairs(AffectedFrames) do
+        AffectedFrame = BitesCookBook_ConfigFrame[frame_name]
+        if BitesCookBook.Options["hide_meals_but_hint"] then
+            BitesCookBook.Options[frame_name] = false
             AffectedFrame:Disable()
             AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
-    
+
             AffectedFrame:SetChecked(false)
         else
             AffectedFrame:Enable()
             AffectedFrame.text:SetTextColor(1, 1, 1)
         end
+        -- Update other functions as well. What is the best way to do this?
+        PreventLevelRange()
     end
-    
-    PreventGray = function()
-        AffectedFrame = BitesCookBook_ConfigFrame["gray_minimum_rank"]
-        if BitesCookBook.Options["color_meal"] then
-            BitesCookBook.Options["gray_minimum_rank"] = false
-            AffectedFrame:Disable()
-            AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
-    
-            AffectedFrame:SetChecked(false)
-        else
-            AffectedFrame:Enable()
-            AffectedFrame.text:SetTextColor(1, 1, 1)
-        end
+end
+
+PreventLevelRange = function()
+    AffectedFrame = BitesCookBook_ConfigFrame["show_recipe_level_range_on_ingredient"]
+    if not BitesCookBook.Options["show_recipe_level_start_on_ingredient"] then
+        BitesCookBook.Options["show_recipe_level_range_on_ingredient"] = false
+        AffectedFrame:Disable()
+        AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
+
+        AffectedFrame:SetChecked(false)
+    else
+        AffectedFrame:Enable()
+        AffectedFrame.text:SetTextColor(1, 1, 1)
     end
-    
-    function BitesCookBook:InitializeOptions()
+end
+
+PreventColor = function()
+    AffectedFrame = BitesCookBook_ConfigFrame["color_meal"]
+    if BitesCookBook.Options["gray_minimum_rank"] then
+        BitesCookBook.Options["color_meal"] = false
+        AffectedFrame:Disable()
+        AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
+
+        AffectedFrame:SetChecked(false)
+    else
+        AffectedFrame:Enable()
+        AffectedFrame.text:SetTextColor(1, 1, 1)
+    end
+end
+
+PreventGray = function()
+    AffectedFrame = BitesCookBook_ConfigFrame["gray_minimum_rank"]
+    if BitesCookBook.Options["color_meal"] then
+        BitesCookBook.Options["gray_minimum_rank"] = false
+        AffectedFrame:Disable()
+        AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
+
+        AffectedFrame:SetChecked(false)
+    else
+        AffectedFrame:Enable()
+        AffectedFrame.text:SetTextColor(1, 1, 1)
+    end
+end
+
+function BitesCookBook:InitializeOptionsMenu()    
         BitesCookBook_ConfigFrame = CreateFrame("Frame", "BitesCookBook_InterfaceOptionsPanel", UIParent)
         BitesCookBook_ConfigFrame.name = "Bites"
         InterfaceOptions_AddCategory(BitesCookBook_ConfigFrame)
