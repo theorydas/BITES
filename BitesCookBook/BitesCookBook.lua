@@ -15,7 +15,7 @@ function BitesCookBook:GetItem(id)
     return ItemColor, ItemName
 end
 
-function BitesCookBook:GetRecipeTooltip(id)
+function BitesCookBook:BuildTooltipForRecipe(id)
     --- Shows all materials needed for a recipe.
 
     if recipes[id] ~= nil then
@@ -35,7 +35,7 @@ function BitesCookBook:GetRecipeTooltip(id)
     end
 end
 
-function BitesCookBook:GetIngredientTooltip(id)
+function BitesCookBook:BuildTooltipForIngredient(id)
     --- Shows all available recipes for that ingredient.
     if ingredients[id] ~= nil then
         local text = "\n"
@@ -43,9 +43,51 @@ function BitesCookBook:GetIngredientTooltip(id)
         text = text .. "Ingredient for:"
 
         for _, RecipeID in ipairs(ingredients[id]) do
-            ItemColor, ItemName = BitesCookBook:GetItem(RecipeID)
+            ItemColor, ItemName = GetItem(RecipeID)
             
-            text = text .."\n    ".. ItemColor.. ItemName
+            if CookingSkillRank >= recipes[RecipeID]["Range"][1] - BitesCookBook.Options.max_level then
+                if ItemColor ~= "|cffff0000" then -- We do not want to override errors by mistake.
+                    if BitesCookBook.Options.gray_minimum_rank and recipes[RecipeID]["Range"][1] > CookingSkillRank then
+                        ItemColor = "|c007d7d7d" -- Gray color.
+                    elseif BitesCookBook.Options.color_meal then
+                        if CookingSkillRank <= recipes[RecipeID]["Range"][1] then
+                            ItemColor = "|c00FF0000" -- Red color.
+                        elseif CookingSkillRank <= recipes[RecipeID]["Range"][2]then
+                            ItemColor = "|c00FF7F00" -- Orange color.
+                        elseif CookingSkillRank <= recipes[RecipeID]["Range"][3] then
+                            ItemColor = "|c00FFFF00" -- Yellow color.
+                        elseif CookingSkillRank <= recipes[RecipeID]["Range"][4] then
+                            ItemColor = "|cff1eff00" -- Green color.
+                        else
+                            ItemColor = "|c007d7d7d" -- Gray color.
+                        end
+                    end
+                end
+                -- Get the item's icon through the item's ID and add it to the tooltip.
+                if BitesCookBook.Options.show_recipe_icon then
+                    itemTexture = C_Item.GetItemIconByID(RecipeID)
+                    if itemTexture ~= nil then
+                        text = text .."\n   |T" .. itemTexture .. ":0|t ".. ItemColor.. ItemName
+                    else
+                        text = text .."\n    ".. ItemColor.. ItemName
+                    end
+                else
+                    text = text .."\n    ".. ItemColor.. ItemName
+                end
+
+                if BitesCookBook.Options.show_recipe_level_start_on_ingredient then
+                    range = recipes[RecipeID]["Range"]
+                    -- range[1] = recipes[RecipeID]["Range"][1]
+                    if range[1] > 1 then -- If the first number is 1, it is a default recipe.
+                        text = text .. string.format("|r-|c00FF7F00%s|r", range[1])
+                    else
+                        text = text .. string.format("|r-|c00FF7F00%s|r", "Starter")
+                    end
+                    if BitesCookBook.Options.show_recipe_level_range_on_ingredient then
+                        text = text .. string.format("|r-|c00FFFF00%s|r-|cff1eff00%s|r-|c007d7d7d%s|r", range[2], range[3], range[4])
+                    end               
+                end
+            end
         end
 
         return text
@@ -55,7 +97,17 @@ function BitesCookBook:GetIngredientTooltip(id)
 end
 
 function BitesCookBook:OnTooltipSetItem(tooltip)
-	local itemName, itemLink = tooltip:BitesCookBook:GetItem()
+    if not BitesCookBook.Options.show_ingredient_tooltip and not BitesCookBook.Options.show_recipe_tooltip then
+        return
+    end
+    if BitesCookBook.Options.show_on_modifier ~= 0 then
+        if modifier_key_functions[BitesCookBook.Options.modifier_key]() == not BitesCookBook.Options.show_on_modifier then
+            return
+        end
+    end
+
+    -- Get the name of the item.
+	local itemName, itemLink = tooltip:GetItem()
 	if not itemName then
         return
     end
@@ -63,14 +115,24 @@ function BitesCookBook:OnTooltipSetItem(tooltip)
     local itemID = Item:CreateFromItemLink(itemLink):GetItemID()
 
 
-    RecipeTooltip = BitesCookBook:GetRecipeTooltip(itemID)
-    if RecipeTooltip ~= nil then
-        tooltip:AddLine(RecipeTooltip)
+    if BitesCookBook.Options.show_recipe_tooltip then
+        -- Find all the items used to make this.
+        RecipeTooltip = BitesCookBook:BuildTooltipForRecipe(itemID)
+        if RecipeTooltip ~= nil then
+            tooltip:AddLine(RecipeTooltip)
+        end
     end
+    
+    if BitesCookBook.Options.show_ingredient_tooltip then
+        if BitesCookBook.Options.hide_meals_but_hint then
+            tooltip:AddLine("Ingredient used in cooking:")
+            return
+        end
 
-    IngredientTooltip = BitesCookBook:GetIngredientTooltip(itemID)
-    if IngredientTooltip ~= nil then
-        tooltip:AddLine(IngredientTooltip)
+        IngredientTooltip = BitesCookBook:BuildTooltipForIngredient(itemID)
+        if IngredientTooltip ~= nil then
+            tooltip:AddLine(IngredientTooltip)
+        end
     end
 end
 
