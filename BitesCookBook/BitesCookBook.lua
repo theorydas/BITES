@@ -7,7 +7,9 @@ local modifier_key_functions = {
 function BitesCookBook:GetItem(id)
     ItemColor = "|r|cffffffff" -- Default color is white. |r is needed to reset the color and prevents leaks.
     ItemName = C_Item.GetItemNameByID(id)
-
+    if ItemName == nil then
+        return ItemColor, "???"
+    end
     -- If the item is not in the localization, make it red.
     if ItemName == tostring(id) then
         ItemColor = "|cffff0000"
