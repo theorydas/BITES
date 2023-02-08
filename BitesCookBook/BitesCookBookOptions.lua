@@ -2,15 +2,15 @@ BitesCookBook = CreateFrame("Frame")
 BitesCookBook.Options = {
 	show_ingredient_tooltip = true,
 	show_recipe_level_range_on_ingredient = false,
-	show_recipe_tooltip = true,
+	show_recipe_tooltip = false,
 	hide_meals_but_hint = false,
     show_recipe_level_start_on_ingredient = false,
 	show_on_modifier = 0,
     modifier_key = "SHIFT",
     gray_minimum_rank = false,
-    color_meal = false,
-    show_recipe_icon = false,
-    max_level = 50
+    color_meal = true,
+    show_recipe_icon = true,
+    max_level = 100
 }
 
 -- Keep track of the vertical position of option items.
