@@ -89,6 +89,7 @@ function BitesCookBook:BuildTooltipForIngredient(id)
                 else
                     text = text .."\n    ".. ItemColor.. ItemName
                 end
+                text = text .. "|r" -- Reset the color.
 
                 if BitesCookBook.Options.show_recipe_level_start_on_ingredient then
                     range = BitesCookBook.Recipes[RecipeID]["Range"]
