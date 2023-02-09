@@ -10,18 +10,10 @@ class Misc():
 
 class Item():
     """ A class to represent an item in the game."""
-    def __init__(self, id, name) -> None:
+    def __init__(self, id: int, name: str, dropped_by: dict) -> None:
         self.id = id
         self.name = name
-    
-    @classmethod
-    def read(cls, item_from_regex: str) -> tuple:
-        """ Reads the JavaScript string using regex and creates an Item object."""
-        
-        id = int(re.findall('(.*?)":{"name_enus', item_from_regex)[0])
-        name = re.findall('"name_enus":"(.*?)","', item_from_regex)[0]
-
-        return cls(id, name)
+        self.dropped_by = dropped_by
     
     def __repr__(self):
         return f"{self.name} (id: {self.id})"
@@ -90,9 +82,3 @@ class Recipe():
         materials_line = materials_line + '\n\t\t},'
         end_line = "},"
         return "\t" +name_line +"\n\t\t" +amount_line + "\n\t\t" +range_line +"\n\t\t" +source_line +"\n\t\t" +materials_line +"\n\t" +end_line +"\n\n"
-
-# A regular expression that finds a match between $ and $.
-# $ = re.compile(r'\$(.*?)\$')
-# It should only find matches that additionally include the word A inside the two $., i.e. \$(.*?A.*?)\$
-# reagent = re.compile(r'\$(.*?A.*?)\$')
-# However it must not find matches that do not include the word A inside the two $, i.e. \$(.*?A.*?)\$ and not \$(.*?)\$
