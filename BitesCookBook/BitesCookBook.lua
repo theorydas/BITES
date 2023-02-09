@@ -4,6 +4,17 @@ local modifier_key_functions = {
     ["CTRL"] = IsControlKeyDown,
 }
 
+-- Detect if the game's version is classic or wotlk
+-- Then load the appropriate recipes, and remove the other one.
+local isClassic = select(4, GetBuildInfo()) < 30000
+if isClassic then
+    BitesCookBook.Recipes = BitesCookBook.RecipesClassic
+    BitesCookBook.RecipesWotLK = nil
+else
+    BitesCookBook.Recipes = BitesCookBook.RecipesWotLK
+    BitesCookBook.RecipesClassic = nil
+end
+
 function BitesCookBook:GetItem(id)
     ItemColor = "|r|cffffffff" -- Default color is white. |r is needed to reset the color and prevents leaks.
     ItemName = C_Item.GetItemNameByID(id)
@@ -101,6 +112,7 @@ function BitesCookBook:BuildTooltipForIngredient(id)
 end
 
 function BitesCookBook.OnTooltipSetItem(tooltip)
+    -- If both options are disabled, do nothing.
     if not BitesCookBook.Options.show_ingredient_tooltip and not BitesCookBook.Options.show_recipe_tooltip then
         return
     end

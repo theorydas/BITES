@@ -9,4 +9,5 @@
 
 BitesCookBookOptions.lua
 CookingRecipes.lua
+CookingRecipes_WotLK.lua
 BitesCookBook.lua

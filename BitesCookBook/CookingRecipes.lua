@@ -1,4 +1,4 @@
-BitesCookBook.Recipes = {
+BitesCookBook.RecipesClassic = {
 	[2679] = { -- Charred Wolf Meat
 		["Amount"] = 1,
 		["Range"] = {0, 45, 65, 85},
