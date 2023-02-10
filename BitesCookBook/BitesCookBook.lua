@@ -4,16 +4,6 @@ local modifier_key_functions = {
     ["CTRL"] = IsControlKeyDown,
 }
 
--- Detect if the game's version is classic or wotlk
--- Then load the appropriate recipes, and remove the other one.
-local isClassic = select(4, GetBuildInfo()) < 30000
-if isClassic then
-    BitesCookBook.Recipes = BitesCookBook.RecipesClassic
-    BitesCookBook.RecipesWotLK = nil
-else
-    BitesCookBook.Recipes = BitesCookBook.RecipesWotLK
-    BitesCookBook.RecipesClassic = nil
-end
 
 function BitesCookBook:GetItem(id)
     ItemColor = "|r|cffffffff" -- Default color is white. |r is needed to reset the color and prevents leaks.
@@ -52,61 +42,67 @@ end
 
 function BitesCookBook:BuildTooltipForIngredient(id)
     --- Shows all available recipes for that ingredient.
-    if BitesCookBook.Ingredients[id] ~= nil then
-        local text = "\n"
-        -- Cycle through all materials in a recipe to create the tooltip.
-        text = text .. "Ingredient for:"
-
-        for _, RecipeID in ipairs(BitesCookBook.Ingredients[id]) do
-            ItemColor, ItemName = BitesCookBook:GetItem(RecipeID)
-            
-            if BitesCookBook.CookingSkillRank >= BitesCookBook.Recipes[RecipeID]["Range"][1] - BitesCookBook.Options.max_level then
-                if ItemColor ~= "|cffff0000" then -- We do not want to override errors by mistake.
-                    if BitesCookBook.Options.gray_minimum_rank and BitesCookBook.Recipes[RecipeID]["Range"][1] > BitesCookBook.CookingSkillRank then
+    if BitesCookBook.Ingredients[id] == nil then return end
+    
+    local text = "\nIngredient for:"
+    
+    -- Cycle through all materials in a recipe to create the tooltip.
+    for _, RecipeID in ipairs(BitesCookBook.Ingredients[id]) do
+        ItemColor, ItemName = BitesCookBook:GetItem(RecipeID)
+        
+        if BitesCookBook.CookingSkillRank >= BitesCookBook.Recipes[RecipeID]["Range"][1] - BitesCookBook.Options.max_level then
+            if ItemColor ~= "|cffff0000" then -- We do not want to override errors by mistake.
+                if BitesCookBook.Options.gray_minimum_rank and BitesCookBook.Recipes[RecipeID]["Range"][1] > BitesCookBook.CookingSkillRank then
+                    ItemColor = "|c007d7d7d" -- Gray color.
+                elseif BitesCookBook.Options.color_meal then
+                    if BitesCookBook.CookingSkillRank < BitesCookBook.Recipes[RecipeID]["Range"][1] then
+                        ItemColor = "|c00FF0000" -- Red color.
+                    elseif BitesCookBook.CookingSkillRank < BitesCookBook.Recipes[RecipeID]["Range"][2]then
+                        ItemColor = "|c00FF7F00" -- Orange color.
+                    elseif BitesCookBook.CookingSkillRank < BitesCookBook.Recipes[RecipeID]["Range"][3] then
+                        ItemColor = "|c00FFFF00" -- Yellow color.
+                    elseif BitesCookBook.CookingSkillRank < BitesCookBook.Recipes[RecipeID]["Range"][4] then
+                        ItemColor = "|cff1eff00" -- Green color.
+                    else
                         ItemColor = "|c007d7d7d" -- Gray color.
-                    elseif BitesCookBook.Options.color_meal then
-                        if BitesCookBook.CookingSkillRank < BitesCookBook.Recipes[RecipeID]["Range"][1] then
-                            ItemColor = "|c00FF0000" -- Red color.
-                        elseif BitesCookBook.CookingSkillRank < BitesCookBook.Recipes[RecipeID]["Range"][2]then
-                            ItemColor = "|c00FF7F00" -- Orange color.
-                        elseif BitesCookBook.CookingSkillRank < BitesCookBook.Recipes[RecipeID]["Range"][3] then
-                            ItemColor = "|c00FFFF00" -- Yellow color.
-                        elseif BitesCookBook.CookingSkillRank < BitesCookBook.Recipes[RecipeID]["Range"][4] then
-                            ItemColor = "|cff1eff00" -- Green color.
-                        else
-                            ItemColor = "|c007d7d7d" -- Gray color.
-                        end
                     end
                 end
-                -- Get the item's icon through the item's ID and add it to the tooltip.
-                if BitesCookBook.Options.show_recipe_icon then
-                    itemTexture = C_Item.GetItemIconByID(RecipeID)
-                    if itemTexture ~= nil then
-                        text = text .."\n   |T" .. itemTexture .. ":0|t ".. ItemColor.. ItemName
-                    else
-                        text = text .."\n    ".. ItemColor.. ItemName
-                    end
+            end
+            -- Get the item's icon through the item's ID and add it to the tooltip.
+            if BitesCookBook.Options.show_recipe_icon then
+                itemTexture = C_Item.GetItemIconByID(RecipeID)
+                if itemTexture ~= nil then
+                    text = text .."\n   |T" .. itemTexture .. ":0|t ".. ItemColor.. ItemName
                 else
                     text = text .."\n    ".. ItemColor.. ItemName
                 end
-                text = text .. "|r" -- Reset the color.
+            else
+                text = text .."\n    ".. ItemColor.. ItemName
+            end
+            text = text .. "|r" -- Reset the color to prevent leaks.
 
-                if BitesCookBook.Options.show_recipe_level_start_on_ingredient then
-                    range = BitesCookBook.Recipes[RecipeID]["Range"]
-                    -- range[1] = recipes[RecipeID]["Range"][1]
-                    if range[1] > 1 then -- If the first number is 1, it is a default recipe.
-                        text = text .. string.format("|r-|c00FF7F00%s|r", range[1])
-                    else
-                        text = text .. string.format("|r-|c00FF7F00%s|r", "Starter")
-                    end
-                    if BitesCookBook.Options.show_recipe_level_range_on_ingredient then
-                        text = text .. string.format("|r-|c00FFFF00%s|r-|cff1eff00%s|r-|c007d7d7d%s|r", range[2], range[3], range[4])
-                    end               
+            if BitesCookBook.Options.show_recipe_level_start_on_ingredient then
+                range = BitesCookBook.Recipes[RecipeID]["Range"]
+
+                if range[1] > 1 then -- If the first number is 1, it is a default recipe.
+                    text = text .. string.format("|r-|c00FF7F00%s|r", range[1])
+                else
+                    text = text .. string.format("|r-|c00FF7F00%s|r", "Starter")
                 end
+
+                if BitesCookBook.Options.show_recipe_level_range_on_ingredient then
+                    text = text .. string.format("|r-|c00FFFF00%s|r-|cff1eff00%s|r-|c007d7d7d%s|r", range[2], range[3], range[4])
+                end               
             end
         end
+    end
 
         return text
+        return text
+    else
+        return nil
+    end
+    return text
     else
         return nil
     end

@@ -1,13 +1,14 @@
 ## Interface: 46575
 ## Title: Bites
 ## Notes: Shows which items can be used in cooking, and what are they used for.
-## Version: 1.0
+## Version: 1.1
 ## Description: Shows which items can be used in cooking, and what are they used for.
 ## DefaultState: enabled
 
 ## SavedVariablesPerCharacter: BitesCookBook_SavedVariables
 
-BitesCookBookOptions.lua
 CookingRecipes.lua
 CookingRecipes_WotLK.lua
+
+BitesCookBookOptions.lua
 BitesCookBook.lua
