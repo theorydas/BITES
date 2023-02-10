@@ -225,7 +225,7 @@ function BitesCookBook:InitializeOptionsMenu()
         
         if BitesCookBook.Options.show_on_modifier == 0 then
             UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Do nothing")
-        elseif BitesCookBook.Options.show_on_modifier == True then
+        elseif BitesCookBook.Options.show_on_modifier == true then
             UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Show tooltip")
         else
             UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Hide tooltip")
