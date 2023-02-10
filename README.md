@@ -2,7 +2,7 @@
 
 ### `An adventurer's recipe tome`
 
-A lightweight add-on for World of Warcraft classic (vanilla) that shows you which cooking ingredients can be used to cook meals with. (Currently only supports Vanilla)
+A lightweight add-on for World of Warcraft classic that shows you which cooking ingredients can be used to cook meals with.
 
 ## What is BITES?
 
