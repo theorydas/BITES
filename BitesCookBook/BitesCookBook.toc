@@ -1,7 +1,7 @@
 ## Interface: 46575
 ## Title: Bites
 ## Notes: Shows which items can be used in cooking, and what are they used for.
-## Version: 1.1
+## Version: 1.15
 ## Description: Shows which items can be used in cooking, and what are they used for.
 ## DefaultState: enabled
 
