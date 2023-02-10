@@ -19,7 +19,7 @@ local DeltaP_Box = 29
 
 function OnEvent(self, event, addonName)
     -- We want to update the player's cooking skill when they level up.
-    if event == "CHAT_MSG_SKILL" then
+    if event == "CHAT_MSG_SKILL" or event == "PLAYER_ENTERING_WORLD" then
         BitesCookBook.CookingSkillRank = BitesCookBook:GetSkillLevel("Cooking")
         return -- We don't want to do anything else.
     elseif event == "ADDON_LOADED" and addonName ~= "BitesCookBook" then
@@ -62,8 +62,7 @@ function OnEvent(self, event, addonName)
         BitesCookBook.Recipes = BitesCookBook_RecipesWotLK
     end
     
-    -- Get the player's cooking skill, and create a list for all ingredients.
-    BitesCookBook.CookingSkillRank = BitesCookBook:GetSkillLevel("Cooking")
+    -- Create a list for all ingredients.
     BitesCookBook.Ingredients = BitesCookBook:GetAllIngredients(BitesCookBook.Recipes)
 
     self:UnregisterEvent(event)
@@ -71,6 +70,7 @@ end
 
 BitesCookBook:RegisterEvent("CHAT_MSG_SKILL")
 BitesCookBook:RegisterEvent("ADDON_LOADED")
+BitesCookBook:RegisterEvent("PLAYER_ENTERING_WORLD")
 BitesCookBook:SetScript("OnEvent", OnEvent)
 
 PreventAllIngredients = function()
