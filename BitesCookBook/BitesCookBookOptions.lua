@@ -84,7 +84,7 @@ PreventAllIngredients = function()
 end
 
 PreventAllIngredientsFromHint = function()
-    AffectedFrames = {"show_recipe_level_start_on_ingredient", "show_recipe_level_range_on_ingredient", "gray_minimum_rank", "color_meal", show_recipe_icon}
+    AffectedFrames = {"show_recipe_level_start_on_ingredient", "show_recipe_level_range_on_ingredient", "gray_minimum_rank", "color_meal", "show_recipe_icon"}
     
     -- Iterate over the frames and disable them if the option is checked.
     for i, frame_name in ipairs(AffectedFrames) do
