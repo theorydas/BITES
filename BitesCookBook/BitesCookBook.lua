@@ -91,15 +91,7 @@ function BitesCookBook:BuildTooltipForIngredient(id)
         end
     end
 
-        return text
-        return text
-    else
-        return nil
-    end
     return text
-    else
-        return nil
-    end
 end
 
 function BitesCookBook.OnTooltipSetItem(tooltip)
