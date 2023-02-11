@@ -19,7 +19,7 @@ function BitesCookBook:GetItemNameByID(ItemId)
     local ItemName = C_Item.GetItemNameByID(ItemId)
 
     -- Sometimes WoW won't find the name immediately.
-    return ItemName ~= nil and ItemName or "???"
+    return ItemName ~= nil and ItemName or ""
 end
 
 function BitesCookBook:GetItemIcon(ItemId)
