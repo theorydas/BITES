@@ -41,5 +41,6 @@ end
 
 GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnReagentTooltip)
 GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnCraftableTooltip)
+GameTooltip:HookScript("OnTooltipSetUnit", BitesCookBook.OnEnemyTooltip)
 
 -- Fixed that  when 'hint' is enabled also shows on recipes.

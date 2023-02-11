@@ -57,15 +57,18 @@ function OnEvent(self, event, addonName)
     if isClassic then
         print("BitesCookBook: Classic.")
         BitesCookBook.Recipes = BitesCookBook_RecipesClassic
+        BitesCookBook.Reagents = BitesCookBook_ReagentsClassic
     else
         print("BitesCookBook: Wrath of the Lich King.")
         BitesCookBook.Recipes = BitesCookBook_RecipesWotLK
+        BitesCookBook.Reagents = BitesCookBook_ReagentsWotLK
     end
     
-    -- Create a list for all ingredients.
+    -- Dynamically create a list for all ingredients and their associated recipes, or mobs and their associated reagent drops.
     BitesCookBook.Ingredients = BitesCookBook:GetAllIngredients(BitesCookBook.Recipes)
+    BitesCookBook.DroopedBy = BitesCookBook:GetAllMobs(BitesCookBook.Reagents)
 
-    self:UnregisterEvent(event)
+    self:UnregisterEvent(event) -- The addon-loading event (the only which survives till here) is unregistered.
 end
 
 BitesCookBook:RegisterEvent("CHAT_MSG_SKILL")
@@ -332,8 +335,23 @@ function BitesCookBook:GetAllIngredients(RecipeList)
         end)
     end
 
-    return ingredients
+
+function BitesCookBook:GetAllMobs(ReagentsDict)
+    local MobsAndDrops = {}
+    
+    for DropID, DropDetails in pairs(ReagentsDict) do
+        for MobID, ChangeToDropReagent in pairs(DropDetails.DroppedBy) do
+            if MobsAndDrops[MobID] == nil then
+                MobsAndDrops[MobID] = {}
+            end
+            
+            table.insert(MobsAndDrops[MobID], DropID)
+        end
+    end
+
+    return MobsAndDrops
 end
+
 
 function BitesCookBook:CreateTitle(Name, ShortDescription, LongDescription)
     Position = Position +25
