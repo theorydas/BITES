@@ -1,6 +1,6 @@
 function BitesCookBook.OnEnemyTooltip(Tooltip)
     -- Does the player want to see the tooltip?
-    if not BitesCookBook.Options.show_recipe_tooltip then return end
+    if not BitesCookBook.Options.show_enemy_tooltip then return end
 
     -- Do they want to see/hide the tooltip only when holding a modifier key?
     if BitesCookBook:CheckModifierKey() then return end

@@ -3,6 +3,7 @@ BitesCookBook.Options = {
 	show_ingredient_tooltip = true,
 	show_recipe_level_range_on_ingredient = false,
 	show_recipe_tooltip = false,
+	show_enemy_tooltip = true,
 	hide_meals_but_hint = false,
     show_recipe_level_start_on_ingredient = false,
 	show_on_modifier = 0,
@@ -182,7 +183,7 @@ function BitesCookBook:InitializeOptionsMenu()
         BitesCookBook:CreateCheckBox("hide_meals_but_hint", "Only show if an item is used for cooking.", PreventAllIngredientsFromHint)
     
         BitesCookBook:CreateCheckBox("show_recipe_level_start_on_ingredient", "Show at what skill level a meal becomes available.", PreventLevelRange)
-        AllLevelRangesBox = BitesCookBook:CreateCheckBox("show_recipe_level_range_on_ingredient", "Also show at what subsequent sill-levels the meal's efficiency changes.")
+        AllLevelRangesBox = BitesCookBook:CreateCheckBox("show_recipe_level_range_on_ingredient", "Also show at what subsequent skill-levels the meal's efficiency changes.")
         AllLevelRangesBox:SetPoint("TOPLEFT", 20 + 20, -Position + DeltaP_Box)
 
         BitesCookBook:CreateCheckBox("gray_minimum_rank", "Gray out recipes that are not yet available to your rank.", PreventColor)
@@ -209,10 +210,10 @@ function BitesCookBook:InitializeOptionsMenu()
     
         Position = Position + DeltaP_Box + 20
         
-        BitesCookBook_ConfigFrame.Recipes = BitesCookBook:CreateTitle("Recipes", "Recipe Tooltips", "These are Options that modify which ingerdient-information is shown on the tooltip of ingredients.")
-        BitesCookBook:CreateCheckBox("show_recipe_tooltip", "Show meal/recipe tooltips.")
-    
+        
         BitesCookBook_ConfigFrame.Misc = BitesCookBook:CreateTitle("Misc", "Miscellaneous", "")
+        BitesCookBook:CreateCheckBox("show_recipe_tooltip", "Show meal/recipe tooltips.")
+        BitesCookBook:CreateCheckBox("show_enemy_tooltip", "Show possible ingredients under enemies.")
         
         PreventColor()
         PreventGray()
