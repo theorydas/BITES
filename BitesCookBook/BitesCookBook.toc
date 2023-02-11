@@ -12,6 +12,7 @@ Lists/CookingRecipes_Wrath.lua
 Lists/CookingReagents.lua
 Lists/CookingReagents_Wrath.lua
 
+InitializeAddon.lua
 Options.lua
 
 Craftables.lua

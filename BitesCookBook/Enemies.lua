@@ -1,6 +1,6 @@
 function BitesCookBook.OnEnemyTooltip(Tooltip)
     -- Does the player want to see the tooltip?
-    if not BitesCookBook.Options.show_enemy_tooltip then return end
+    if not BitesCookBook.Options.ShowEnemyTooltip then return end
 
     -- Do they want to see/hide the tooltip only when holding a modifier key?
     if BitesCookBook:CheckModifierKey() then return end
@@ -14,16 +14,15 @@ function BitesCookBook.OnEnemyTooltip(Tooltip)
     local UnitID = tonumber(UnitGUID(Unit):match("-(%d+)-%x+$"), 10)
 
     -- Otherwise build the tooltip.
-    EnemyTooltip = BitesCookBook:BuildTooltipForEnemy(UnitID)
+    local EnemyTooltip = BitesCookBook:BuildTooltipForEnemy(UnitID)
     if EnemyTooltip == nil then return end
 
     Tooltip:AddLine(EnemyTooltip)
-
 end
 
 -- Shows all materials needed for a recipe.
 function BitesCookBook:BuildTooltipForEnemy(EnemyID)
-    local Enemy = BitesCookBook.DroopedBy[EnemyID]
+    local Enemy = BitesCookBook.MobsDroppingReagent[EnemyID]
 
     -- If the item doesn't correspond to a recipe, do nothing.
     if Enemy == nil then return end
@@ -32,8 +31,8 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
     
     -- Cycle through all materials in a recipe to create the tooltip.
     for _, ReagentID in ipairs(Enemy) do
-        ItemName = BitesCookBook:GetItemNameByID(ReagentID)
-        ItemColor = BitesCookBook:GetReagentColor(ReagentID)
+        local ItemName = BitesCookBook:GetItemNameByID(ReagentID)
+        local ItemColor = BitesCookBook:GetReagentColor(ReagentID)
 
         text = text .."\n    ".. ItemColor.. ItemName
     end

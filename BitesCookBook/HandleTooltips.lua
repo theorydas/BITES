@@ -1,3 +1,13 @@
+-- Hooks the GameTooltip to show additional information.
+GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnReagentTooltip)
+GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnCraftableTooltip)
+GameTooltip:HookScript("OnTooltipSetUnit", BitesCookBook.OnEnemyTooltip)
+
+
+--------------------------------------------------------------------------------
+-- General Tooltip functions and Definitions
+--------------------------------------------------------------------------------
+
 BitesCookBook.TextColors = {
     ["Red"] = "|c00FF0000",
     ["Orange"] = "|c00FF7F00",
@@ -12,7 +22,6 @@ BitesCookBook.ModifierKeys = {
     ["ALT"] = IsAltKeyDown,
     ["CTRL"] = IsControlKeyDown,
 }
-
 
 -- Returns the name of an item using its WoW ID.
 function BitesCookBook:GetItemNameByID(ItemId)
@@ -30,17 +39,14 @@ function BitesCookBook:GetItemIcon(ItemId)
 end
 
 function BitesCookBook:CheckModifierKey()
-    if BitesCookBook.Options.show_on_modifier ~= 0 then
-        if BitesCookBook.ModifierKeys[BitesCookBook.Options.modifier_key]() == not BitesCookBook.Options.show_on_modifier then
+    if BitesCookBook.Options.HasModifier ~= 0 then
+        if BitesCookBook.ModifierKeys[BitesCookBook.Options.ModifierKey]() == not BitesCookBook.Options.HasModifier then
             return true
         end
     end
-
+    
+    -- Passes the check.
     return false
 end
-
-GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnReagentTooltip)
-GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnCraftableTooltip)
-GameTooltip:HookScript("OnTooltipSetUnit", BitesCookBook.OnEnemyTooltip)
 
 -- Fixed that  when 'hint' is enabled also shows on recipes.

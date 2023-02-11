@@ -1,6 +1,6 @@
 function BitesCookBook.OnCraftableTooltip(Tooltip)
     -- Does the player want to see the tooltip?
-    if not BitesCookBook.Options.show_recipe_tooltip then return end
+    if not BitesCookBook.Options.ShowCraftableTooltip then return end
 
     -- Do they want to see/hide the tooltip only when holding a modifier key?
     if BitesCookBook:CheckModifierKey() then return end
@@ -11,7 +11,7 @@ function BitesCookBook.OnCraftableTooltip(Tooltip)
     local ItemID = Item:CreateFromItemLink(ItemLink):GetItemID()
 
     -- Otherwise build the tooltip.
-    RecipeTooltip = BitesCookBook:BuildTooltipForCraftable(ItemID)
+    local RecipeTooltip = BitesCookBook:BuildTooltipForCraftable(ItemID)
     if RecipeTooltip == nil then return end
 
     Tooltip:AddLine(RecipeTooltip)
@@ -28,8 +28,8 @@ function BitesCookBook:BuildTooltipForCraftable(CraftableID)
     
     -- Cycle through all materials in a recipe to create the tooltip.
     for ReagentID, count in pairs(Craftable.Materials) do
-        ItemName = BitesCookBook:GetItemNameByID(ReagentID)
-        ItemColor = BitesCookBook:GetReagentColor(ReagentID)
+        local ItemName = BitesCookBook:GetItemNameByID(ReagentID)
+        local ItemColor = BitesCookBook:GetReagentColor(ReagentID)
 
         text = text .."\n    ".. ItemColor.. count .. " x " .. ItemName
     end
