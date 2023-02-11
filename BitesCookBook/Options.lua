@@ -1,102 +1,94 @@
+--------------------------------------------------------------------------------
+-- Exclusive option functions
+--------------------------------------------------------------------------------
+
+local function FrameSwitch(AffectedFrame, ShouldBeEnabled)
+    if ShouldBeEnabled then
+        AffectedFrame:Enable()
+        getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(1, 1, 1)
+    else
+        AffectedFrame:Disable()
+        getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(0.5, 0.5, 0.5)
+        AffectedFrame:SetChecked(false) -- Uncheck the box.
+    end
+end
+
+local function PreventLevelRange()
+    local AffectedFrame = BitesCookBook_ConfigFrame["ShowCraftableRankRange"]
+
+    if not BitesCookBook.Options["ShowCraftableFirstRank"] then -- Beware of the NOT!
+        BitesCookBook.Options["ShowCraftableRankRange"] = false
+        FrameSwitch(AffectedFrame, false)
+    else
+        FrameSwitch(AffectedFrame, true)
+    end
+end
+
+local function PreventColor()
+    local AffectedFrame = BitesCookBook_ConfigFrame["ColorCraftableByRank"]
+
+    if BitesCookBook.Options["GrayHighCraftables"] then
+        BitesCookBook.Options["ColorCraftableByRank"] = false
+        FrameSwitch(AffectedFrame, false)
+    else
+        FrameSwitch(AffectedFrame, true)
+    end
+end
+
+local function PreventGray()
+    local AffectedFrame = BitesCookBook_ConfigFrame["GrayHighCraftables"]
+
+    if BitesCookBook.Options["ColorCraftableByRank"] then
+        BitesCookBook.Options["GrayHighCraftables"] = false
+        FrameSwitch(AffectedFrame, false)
+    else
+        FrameSwitch(AffectedFrame, true)
+    end
+end
+
+local function PreventAllIngredients()
+    local AffectedFrames = {"ShowCraftableFirstRank", "ShowCraftableRankRange", "HideReagentTooltipsButHint", "GrayHighCraftables", "ColorCraftableByRank", "ShowCraftableIcon"}
+    
+    -- Iterate over the frames and disable them if the option is checked.
+    for i, frame_name in ipairs(AffectedFrames) do
+        local AffectedFrame = BitesCookBook_ConfigFrame[frame_name]
+        if not BitesCookBook.Options["ShowIngredientTooltip"] then  -- Beware of the NOT!
+            BitesCookBook.Options[frame_name] = false
+            FrameSwitch(AffectedFrame, false)
+        else
+            FrameSwitch(AffectedFrame, true)
+        end
+        
+        -- Update other functions as well. What is the best way to do this?
+        PreventLevelRange()
+    end
+end
+
+local function PreventAllIngredientsFromHint()
+    local AffectedFrames = {"ShowCraftableFirstRank", "ShowCraftableRankRange", "GrayHighCraftables", "ColorCraftableByRank", "ShowCraftableIcon"}
+    
+    -- Iterate over the frames and disable them if the option is checked.
+    for i, frame_name in ipairs(AffectedFrames) do
+        local AffectedFrame = BitesCookBook_ConfigFrame[frame_name]
+        if BitesCookBook.Options["HideReagentTooltipsButHint"] then
+            BitesCookBook.Options[frame_name] = false
+            FrameSwitch(AffectedFrame, false)
+        else
+            FrameSwitch(AffectedFrame, true)
+        end
+
+        -- Update other functions as well. What is the best way to do this?
+        PreventLevelRange()
+    end
+end
+
+--------------------------------------------------------------------------------
+
 -- Keep track of the vertical position of option items.
 local Position = -10
 local DeltaP_Box = 29
 
-PreventAllIngredients = function()
-    AffectedFrames = {"ShowCraftableFirstRank", "ShowCraftableRankRange", "HideReagentTooltipsButHint", "GrayHighCraftables", "ColorCraftableByRank", "ShowCraftableIcon"}
-    
-    -- Iterate over the frames and disable them if the option is checked.
-    for i, frame_name in ipairs(AffectedFrames) do
-        AffectedFrame = BitesCookBook_ConfigFrame[frame_name]
-        if not BitesCookBook.Options["ShowIngredientTooltip"] then
-            BitesCookBook.Options[frame_name] = false
-            AffectedFrame:Disable()
-            -- AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
-            getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(0.5, 0.5, 0.5)
-
-            AffectedFrame:SetChecked(false)
-        else
-            AffectedFrame:Enable()
-            -- AffectedFrame.text:SetTextColor(1, 1, 1)
-            getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(1, 1, 1)
-        end
-        -- Update other functions as well. What is the best way to do this?
-        PreventLevelRange()
-    end
-end
-
-PreventAllIngredientsFromHint = function()
-    AffectedFrames = {"ShowCraftableFirstRank", "ShowCraftableRankRange", "GrayHighCraftables", "ColorCraftableByRank", "ShowCraftableIcon"}
-    
-    -- Iterate over the frames and disable them if the option is checked.
-    for i, frame_name in ipairs(AffectedFrames) do
-        AffectedFrame = BitesCookBook_ConfigFrame[frame_name]
-        if BitesCookBook.Options["HideReagentTooltipsButHint"] then
-            BitesCookBook.Options[frame_name] = false
-            AffectedFrame:Disable()
-            -- AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
-            getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(0.5, 0.5, 0.5)
-
-            AffectedFrame:SetChecked(false)
-        else
-            AffectedFrame:Enable()
-            -- AffectedFrame.text:SetTextColor(1, 1, 1)
-            getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(1, 1, 1)
-        end
-        -- Update other functions as well. What is the best way to do this?
-        PreventLevelRange()
-    end
-end
-
-PreventLevelRange = function()
-    AffectedFrame = BitesCookBook_ConfigFrame["ShowCraftableRankRange"]
-    if not BitesCookBook.Options["ShowCraftableFirstRank"] then
-        BitesCookBook.Options["ShowCraftableRankRange"] = false
-        AffectedFrame:Disable()
-        -- AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
-        getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(0.5, 0.5, 0.5)
-
-        AffectedFrame:SetChecked(false)
-    else
-        AffectedFrame:Enable()
-        -- AffectedFrame.text:SetTextColor(1, 1, 1)
-        getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(1, 1, 1)
-    end
-end
-
-PreventColor = function()
-    AffectedFrame = BitesCookBook_ConfigFrame["ColorCraftableByRank"]
-    if BitesCookBook.Options["GrayHighCraftables"] then
-        BitesCookBook.Options["ColorCraftableByRank"] = false
-        AffectedFrame:Disable()
-        -- AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
-        getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(0.5, 0.5, 0.5)
-
-        AffectedFrame:SetChecked(false)
-    else
-        AffectedFrame:Enable()
-        -- AffectedFrame.text:SetTextColor(1, 1, 1)
-        getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(1, 1, 1)
-    end
-end
-
-PreventGray = function()
-    AffectedFrame = BitesCookBook_ConfigFrame["GrayHighCraftables"]
-    if BitesCookBook.Options["ColorCraftableByRank"] then
-        BitesCookBook.Options["GrayHighCraftables"] = false
-        AffectedFrame:Disable()
-        -- AffectedFrame.text:SetTextColor(0.5, 0.5, 0.5)
-        getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(0.5, 0.5, 0.5)
-
-        AffectedFrame:SetChecked(false)
-    else
-        AffectedFrame:Enable()
-        -- AffectedFrame.text:SetTextColor(1, 1, 1)
-        getglobal(AffectedFrame:GetName() .. 'Text'):SetTextColor(1, 1, 1)
-    end
-end
-
-function BitesCookBook:InitializeOptionsMenu()    
+function BitesCookBook:InitializeOptionsMenu()
     BitesCookBook_ConfigFrame = CreateFrame("Frame", "BitesCookBook_InterfaceOptionsPanel", UIParent)
     BitesCookBook_ConfigFrame.name = "Bites"
     InterfaceOptions_AddCategory(BitesCookBook_ConfigFrame)
