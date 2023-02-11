@@ -18,7 +18,7 @@ local Position = -10
 local DeltaP_Box = 29
 
 function OnEvent(self, event, addonName)
-    -- We want to update the player's cooking skill when they level up.
+    -- We want to update the player's cooking skill when they rank up, or when they log in.
     if event == "CHAT_MSG_SKILL" or event == "PLAYER_ENTERING_WORLD" then
         BitesCookBook.CookingSkillRank = BitesCookBook:GetSkillLevel("Cooking")
         return -- We don't want to do anything else.
@@ -316,25 +316,27 @@ function BitesCookBook:GetSkillLevel(SkillName)
 end
 
 function BitesCookBook:GetAllIngredients(RecipeList)
-    local ingredients = {}
+    local Reagents = {}
     
     for recipe_key, recipe in pairs(RecipeList) do
         for ingredient, _ in pairs(recipe["Materials"]) do
-            if ingredients[ingredient] == nil then
-                ingredients[ingredient] = {recipe_key}
+            if Reagents[ingredient] == nil then
+                Reagents[ingredient] = {recipe_key}
             else
-                table.insert(ingredients[ingredient], recipe_key)
+                table.insert(Reagents[ingredient], recipe_key)
             end
         end
     end
 
     -- sort each ingredient list based on the recipe range[1]
-    for ingredient, recipe_list in pairs(ingredients) do
+    for ingredient, recipe_list in pairs(Reagents) do
         table.sort(recipe_list, function(a, b)
             return RecipeList[a]["Range"][1] > RecipeList[b]["Range"][1]
         end)
     end
 
+    return Reagents
+end
 
 function BitesCookBook:GetAllMobs(ReagentsDict)
     local MobsAndDrops = {}

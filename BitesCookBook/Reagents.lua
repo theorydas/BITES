@@ -12,9 +12,6 @@ function BitesCookBook.OnReagentTooltip(Tooltip)
 	if ItemLink == nil then return end
     local ItemID = Item:CreateFromItemLink(ItemLink):GetItemID()
     
-    -- If the item doesn't correspond to a reagent, do nothing.
-    if BitesCookBook.Ingredients[ItemID] == nil then return end
-
     -- Do we want to hide the information?
     if BitesCookBook.Options.hide_meals_but_hint then
         Tooltip:AddLine("Used in cooking.")

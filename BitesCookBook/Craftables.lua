@@ -9,9 +9,6 @@ function BitesCookBook.OnCraftableTooltip(Tooltip)
 	local _, ItemLink = Tooltip:GetItem()
 	if ItemLink == nil then return end
     local ItemID = Item:CreateFromItemLink(ItemLink):GetItemID()
-    
-    -- If the item doesn't correspond to a craftable, do nothing.
-    if BitesCookBook.Recipes[ItemID] == nil then return end
 
     -- Otherwise build the tooltip.
     RecipeTooltip = BitesCookBook:BuildTooltipForCraftable(ItemID)
@@ -21,8 +18,8 @@ function BitesCookBook.OnCraftableTooltip(Tooltip)
 end
 
 -- Shows all materials needed for a recipe.
-function BitesCookBook:BuildTooltipForCraftable(CraftableId)
-    local Craftable = BitesCookBook.Recipes[CraftableId]
+function BitesCookBook:BuildTooltipForCraftable(CraftableID)
+    local Craftable = BitesCookBook.Recipes[CraftableID]
 
     -- If the item doesn't correspond to a recipe, do nothing.
     if Craftable == nil then return end
