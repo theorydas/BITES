@@ -1,9 +1,3 @@
--- Hooks the GameTooltip to show additional information.
-GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnReagentTooltip)
-GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnCraftableTooltip)
-GameTooltip:HookScript("OnTooltipSetUnit", BitesCookBook.OnEnemyTooltip)
-
-
 --------------------------------------------------------------------------------
 -- General Tooltip functions and Definitions
 --------------------------------------------------------------------------------
@@ -48,5 +42,3 @@ function BitesCookBook:CheckModifierKey()
     -- Passes the check.
     return false
 end
-
--- Fixed that  when 'hint' is enabled also shows on recipes.

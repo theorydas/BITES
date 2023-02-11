@@ -23,6 +23,12 @@ function BitesCookBook.OnReagentTooltip(Tooltip)
     Tooltip:AddLine(IngredientTooltip)
 end
 
+GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnReagentTooltip)
+
+--------------------------------------------------------------------------------
+-- Reagent-specific tooltip functions
+--------------------------------------------------------------------------------
+
 function BitesCookBook:BuildTooltipForReagent(ReagentID)
     --- Shows all available recipes for that ingredient.
     local CraftablesMadeWithIngredient = BitesCookBook.CraftablesForReagent[ReagentID] -- A list of recipes that use the ingredient.

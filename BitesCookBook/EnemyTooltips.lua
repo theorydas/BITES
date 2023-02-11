@@ -20,8 +20,14 @@ function BitesCookBook.OnEnemyTooltip(Tooltip)
     Tooltip:AddLine(EnemyTooltip)
 end
 
--- Shows all materials needed for a recipe.
+GameTooltip:HookScript("OnTooltipSetUnit", BitesCookBook.OnEnemyTooltip)
+
+--------------------------------------------------------------------------------
+-- Enemy-specific tooltip functions
+--------------------------------------------------------------------------------
+
 function BitesCookBook:BuildTooltipForEnemy(EnemyID)
+    -- Shows all materials needed for a recipe.
     local Enemy = BitesCookBook.MobsDroppingReagent[EnemyID]
 
     -- If the item doesn't correspond to a recipe, do nothing.

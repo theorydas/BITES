@@ -17,8 +17,14 @@ function BitesCookBook.OnCraftableTooltip(Tooltip)
     Tooltip:AddLine(RecipeTooltip)
 end
 
--- Shows all materials needed for a recipe.
+GameTooltip:HookScript("OnTooltipSetItem", BitesCookBook.OnCraftableTooltip)
+
+--------------------------------------------------------------------------------
+-- Craftable-specific tooltip functions
+--------------------------------------------------------------------------------
+
 function BitesCookBook:BuildTooltipForCraftable(CraftableID)
+    -- Shows all materials needed for a recipe.
     local Craftable = BitesCookBook.Recipes[CraftableID]
 
     -- If the item doesn't correspond to a recipe, do nothing.
