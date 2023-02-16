@@ -6,8 +6,7 @@ function BitesCookBook.OnEnemyTooltip(Tooltip)
     if BitesCookBook:CheckModifierKey() then return end
 
     local _, Unit = Tooltip:GetUnit()
-    if Unit == nil or Unit == "player" then
-        print("Invalid unit")
+    if Unit == nil then
         return
     end
 
