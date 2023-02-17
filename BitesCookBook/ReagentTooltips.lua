@@ -14,14 +14,15 @@ function BitesCookBook.OnReagentTooltip(Tooltip)
 	if ItemLink == nil then return end
     local ItemID = Item:CreateFromItemLink(ItemLink):GetItemID()
     
+
+    local IngredientTooltip = BitesCookBook:BuildTooltipForReagent(ItemID)
+    if IngredientTooltip == nil then return end
+
     -- Do we want to hide the information?
     if BitesCookBook.Options.HideReagentTooltipsButHint then
         Tooltip:AddLine(Locale["UsedHint"])
         return
     end
-
-    local IngredientTooltip = BitesCookBook:BuildTooltipForReagent(ItemID)
-    if IngredientTooltip == nil then return end
     Tooltip:AddLine(IngredientTooltip)
 end
 
