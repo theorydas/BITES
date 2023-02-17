@@ -1,3 +1,5 @@
+local Locale = BitesCookBook.Locales[GetLocale()] or BitesCookBook.Locales["enUS"] -- The default locale is English.
+
 function BitesCookBook.OnCraftableTooltip(Tooltip)
     -- Does the player want to see the tooltip?
     if not BitesCookBook.Options.ShowCraftableTooltip then return end
@@ -30,7 +32,7 @@ function BitesCookBook:BuildTooltipForCraftable(CraftableID)
     -- If the item doesn't correspond to a recipe, do nothing.
     if Craftable == nil then return end
 
-    local text = "\nRecipe:"
+    local text = "\n".. Locale["Recipe:"]
     
     -- Cycle through all materials in a recipe to create the tooltip.
     for ReagentID, count in pairs(Craftable.Materials) do

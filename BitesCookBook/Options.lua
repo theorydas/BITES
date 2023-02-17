@@ -1,3 +1,5 @@
+local Locale = BitesCookBook.Locales[GetLocale()] or BitesCookBook.Locales["enUS"] -- The default locale is English.
+
 --------------------------------------------------------------------------------
 -- Exclusive option functions
 --------------------------------------------------------------------------------
@@ -94,18 +96,18 @@ function BitesCookBook:InitializeOptionsMenu()
     InterfaceOptions_AddCategory(BitesCookBook_ConfigFrame)
 
 
-    BitesCookBook_ConfigFrame.Ingredients = BitesCookBook:CreateTitle("Ingredients", "Ingredient Tooltips", "These are Options that modify which recipe-information is shown on the tooltip of ingredients.")
+    BitesCookBook_ConfigFrame.Ingredients = BitesCookBook:CreateTitle("Ingredients", Locale["OptIngTitle"], Locale["OptIngDesc"])
 
-    BitesCookBook:CreateCheckBox("ShowIngredientTooltip", "Show ingredient tooltips.", PreventAllIngredients)    
-    BitesCookBook:CreateCheckBox("HideReagentTooltipsButHint", "Only show if an item is used for cooking.", PreventAllIngredientsFromHint)
+    BitesCookBook:CreateCheckBox("ShowIngredientTooltip", Locale["ShowIngredientTooltip"], PreventAllIngredients)    
+    BitesCookBook:CreateCheckBox("HideReagentTooltipsButHint", Locale["HideReagentTooltipsButHint"], PreventAllIngredientsFromHint)
 
-    BitesCookBook:CreateCheckBox("ShowCraftableFirstRank", "Show at what skill level a meal becomes available.", PreventLevelRange)
-    AllLevelRangesBox = BitesCookBook:CreateCheckBox("ShowCraftableRankRange", "Also show at what subsequent skill-levels the meal's efficiency changes.")
+    BitesCookBook:CreateCheckBox("ShowCraftableFirstRank", Locale["ShowCraftableFirstRank"], PreventLevelRange)
+    AllLevelRangesBox = BitesCookBook:CreateCheckBox("ShowCraftableRankRange", Locale["ShowCraftableRankRange"])
     AllLevelRangesBox:SetPoint("TOPLEFT", 20 + 20, -Position + DeltaP_Box)
 
-    BitesCookBook:CreateCheckBox("GrayHighCraftables", "Gray out recipes that are not yet available to your rank.", PreventColor)
-    BitesCookBook:CreateCheckBox("ColorCraftableByRank", "Color a meal according to your rank.", PreventGray)
-    BitesCookBook:CreateCheckBox("ShowCraftableIcon", "Show a picture of the meal.")
+    BitesCookBook:CreateCheckBox("GrayHighCraftables", Locale["GrayHighCraftables"], PreventColor)
+    BitesCookBook:CreateCheckBox("ColorCraftableByRank", Locale["ColorCraftableByRank"], PreventGray)
+    BitesCookBook:CreateCheckBox("ShowCraftableIcon", Locale["ShowCraftableIcon"])
 
     -- A horizontal sliding bar that controls the max level.
     BitesCookBook_ConfigFrame.DeltaRank = CreateFrame("Slider", "BitesCookBook_MaxLevel", BitesCookBook_ConfigFrame, "OptionsSliderTemplate")
@@ -118,19 +120,19 @@ function BitesCookBook:InitializeOptionsMenu()
     BitesCookBook_ConfigFrame.DeltaRank:SetScript("OnValueChanged",
     function(self, value)
         BitesCookBook.Options.DeltaRank = value
-        BitesCookBook_ConfigFrame.DeltaRank.text:SetText("Rank threshold "..BitesCookBook.Options.DeltaRank)
+        BitesCookBook_ConfigFrame.DeltaRank.text:SetText(Locale["RankThreshold"]..BitesCookBook.Options.DeltaRank)
     end)
     BitesCookBook_ConfigFrame.DeltaRank.text = BitesCookBook_ConfigFrame.DeltaRank:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     BitesCookBook_ConfigFrame.DeltaRank.text:SetPoint("BOTTOMLEFT", BitesCookBook_ConfigFrame.DeltaRank, "TOPLEFT", 0, 0)
-    BitesCookBook_ConfigFrame.DeltaRank.text:SetText("Rank threshold "..BitesCookBook.Options.DeltaRank)
+    BitesCookBook_ConfigFrame.DeltaRank.text:SetText(Locale["RankThreshold"]..BitesCookBook.Options.DeltaRank)
     BitesCookBook_ConfigFrame.DeltaRank:SetValue(BitesCookBook.Options.DeltaRank)
 
     Position = Position + DeltaP_Box + 20
     
     
-    BitesCookBook_ConfigFrame.Misc = BitesCookBook:CreateTitle("Misc", "Miscellaneous", "")
-    BitesCookBook:CreateCheckBox("ShowCraftableTooltip", "Show meal/recipe tooltips.")
-    BitesCookBook:CreateCheckBox("ShowEnemyTooltip", "Show possible ingredients under enemies.")
+    BitesCookBook_ConfigFrame.Misc = BitesCookBook:CreateTitle("Misc", Locale["Misc"], "")
+    BitesCookBook:CreateCheckBox("ShowCraftableTooltip", Locale["ShowCraftableTooltip"])
+    BitesCookBook:CreateCheckBox("ShowEnemyTooltip", Locale["ShowEnemyTooltip"])
     
     PreventColor()
     PreventGray()
@@ -141,42 +143,42 @@ function BitesCookBook:InitializeOptionsMenu()
     BitesCookBook_ConfigFrame.show_or_hide:SetPoint("TOPLEFT", 10, -Position - DeltaP_Box)
     BitesCookBook_ConfigFrame.show_or_hide.text = BitesCookBook_ConfigFrame.show_or_hide:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     BitesCookBook_ConfigFrame.show_or_hide.text:SetPoint("BOTTOMLEFT", BitesCookBook_ConfigFrame.show_or_hide, "TOPLEFT", 21, 0)
-    BitesCookBook_ConfigFrame.show_or_hide.text:SetText("When modifier is pressed:")
+    BitesCookBook_ConfigFrame.show_or_hide.text:SetText(Locale["WhenModifierPressed"])
     -- Set the text of the dropdown.
     
     if BitesCookBook.Options.HasModifier == 0 then
-        UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Do nothing")
+        UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, Locale["DoNothing"])
     elseif BitesCookBook.Options.HasModifier == true then
-        UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Show tooltip")
+        UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, Locale["ShowTooltip"])
     else
-        UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Hide tooltip")
+        UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, Locale["HideTooltip"])
     end
 
     -- Add the Options to the dropdown.
     UIDropDownMenu_Initialize(BitesCookBook_ConfigFrame.show_or_hide, function(self, level, menuList)
         local info = UIDropDownMenu_CreateInfo()
-        info.text, info.arg1, info.func, info.checked = "Do nothing", "Do nothing",
+        info.text, info.arg1, info.func, info.checked = Locale["DoNothing"], Locale["DoNothing"],
         function(self)
             BitesCookBook.Options.HasModifier = 0
-            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Do nothing")
+            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, Locale["DoNothing"])
         end,
         BitesCookBook.Options.HasModifier == 0
         UIDropDownMenu_AddButton(info)
 
         --------------------
-        info.text, info.arg1, info.func, info.checked = "Show tooltip", "Show tooltip",
+        info.text, info.arg1, info.func, info.checked = Locale["ShowTooltip"], Locale["ShowTooltip"],
         function(self)
             BitesCookBook.Options.HasModifier = true
-            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Show tooltip")
+            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, Locale["ShowTooltip"])
         end,
         BitesCookBook.Options.HasModifier == true
         UIDropDownMenu_AddButton(info)
         
         --------------------
-        info.text, info.arg1, info.func, info.checked = "Hide tooltip", "Hide tooltip",
+        info.text, info.arg1, info.func, info.checked = Locale["HideTooltip"], Locale["HideTooltip"],
         function(self)
             BitesCookBook.Options.HasModifier = false
-            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, "Hide tooltip")
+            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, Locale["HideTooltip"])
         end,
         BitesCookBook.Options.HasModifier == false
         UIDropDownMenu_AddButton(info)
@@ -187,33 +189,33 @@ function BitesCookBook:InitializeOptionsMenu()
     BitesCookBook_ConfigFrame.modifier:SetPoint("TOPLEFT", 250, -Position - DeltaP_Box)
     BitesCookBook_ConfigFrame.modifier.text = BitesCookBook_ConfigFrame.modifier:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     BitesCookBook_ConfigFrame.modifier.text:SetPoint("BOTTOMLEFT", BitesCookBook_ConfigFrame.modifier, "TOPLEFT", 21, 0)
-    BitesCookBook_ConfigFrame.modifier.text:SetText("Reveal Tooltip Key")
+    BitesCookBook_ConfigFrame.modifier.text:SetText(Locale["RevealKey"])
     
-    UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.ModifierKey.. " Key")
+    UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.ModifierKey.. Locale["Key"])
 
     -- Add the Options to the dropdown.
     UIDropDownMenu_Initialize(BitesCookBook_ConfigFrame.modifier, function(self, level, menuList)
         local info = UIDropDownMenu_CreateInfo()
-        info.text, info.arg1, info.func, info.checked = "SHIFT Key", "SHIFT Key",
+        info.text, info.arg1, info.func, info.checked = "SHIFT".. Locale["Key"], "SHIFT".. Locale["Key"],
         function(self)
             BitesCookBook.Options.ModifierKey = "SHIFT"
-            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.ModifierKey.. " Key")
+            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.ModifierKey.. Locale["Key"])
         end,
         BitesCookBook.Options.ModifierKey == "SHIFT"
         UIDropDownMenu_AddButton(info)
 
-        info.text, info.arg1, info.func, info.checked = "CTRL Key", "CTRL Key",
+        info.text, info.arg1, info.func, info.checked = "CTRL".. Locale["Key"], "CTRL".. Locale["Key"],
         function(self)
             BitesCookBook.Options.ModifierKey = "CTRL"
-            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.ModifierKey.. " Key")
+            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.ModifierKey.. Locale["Key"])
         end,
         BitesCookBook.Options.ModifierKey == "CTRL"
         UIDropDownMenu_AddButton(info)
 
-        info.text, info.arg1, info.func, info.checked = "ALT Key", "ALT Key",
+        info.text, info.arg1, info.func, info.checked = "ALT".. Locale["Key"], "ALT".. Locale["Key"],
         function(self)
             BitesCookBook.Options.ModifierKey = "ALT"
-            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.ModifierKey.. " Key")
+            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.ModifierKey.. Locale["Key"])
         end,
         BitesCookBook.Options.ModifierKey == "ALT"
         UIDropDownMenu_AddButton(info)

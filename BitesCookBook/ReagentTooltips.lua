@@ -1,3 +1,5 @@
+local Locale = BitesCookBook.Locales[GetLocale()] or BitesCookBook.Locales["enUS"] -- The default locale is English.
+
 function BitesCookBook.OnReagentTooltip(Tooltip)
     -- Does the player want to see the tooltip?
     if not BitesCookBook.Options.ShowIngredientTooltip then
@@ -14,7 +16,7 @@ function BitesCookBook.OnReagentTooltip(Tooltip)
     
     -- Do we want to hide the information?
     if BitesCookBook.Options.HideReagentTooltipsButHint then
-        Tooltip:AddLine("Used in cooking.")
+        Tooltip:AddLine(Locale["UsedHint"])
         return
     end
 
@@ -34,7 +36,7 @@ function BitesCookBook:BuildTooltipForReagent(ReagentID)
     local CraftablesMadeWithIngredient = BitesCookBook.CraftablesForReagent[ReagentID] -- A list of recipes that use the ingredient.
     if CraftablesMadeWithIngredient == nil then return end
     
-    local text = "\nIngredient for:"
+    local text = "\n".. Locale["IngredientFor:"]
     
     -- Cycle through all recipes that use the ingredient to create the tooltip.
     for _, RecipeID in ipairs(CraftablesMadeWithIngredient) do
@@ -56,7 +58,7 @@ function BitesCookBook:BuildTooltipForReagent(ReagentID)
             local ShowLevelRange = BitesCookBook.Options.ShowCraftableRankRange
             
             if ShowFirstLevel then
-                local FirstRangeText = RankingRange[1] > 1 and RankingRange[1] or "Starter"
+                local FirstRangeText = RankingRange[1] > 1 and RankingRange[1] or Locale["Starter"]
 
                 -- When the first rank is 1, it's a starter recipe.
                 text = text .. "-".. BitesCookBook.TextColors["Orange"].. FirstRangeText.. "|r"

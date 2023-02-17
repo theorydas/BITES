@@ -1,7 +1,7 @@
 ## Interface: 46575
 ## Title: Bites
 ## Notes: Shows which items can be used in cooking, and what are they used for.
-## Version: 1.2
+## Version: 1.3
 ## Description: Shows which items can be used in cooking, and what are they used for.
 ## DefaultState: enabled
 
@@ -13,6 +13,7 @@ Lists/CookingReagents.lua
 Lists/CookingReagents_Wrath.lua
 
 InitializeAddon.lua
+Localization.lua
 Options.lua
 
 CraftableTooltips.lua

@@ -25,6 +25,9 @@ function BitesCookBook.ADDON_LOADED(self, event, addonName)
     BitesCookBook.CraftablesForReagent = BitesCookBook:GetAllIngredients(BitesCookBook.Recipes)
     BitesCookBook.MobsDroppingReagent = BitesCookBook:GetAllMobs(BitesCookBook.Reagents)
 
+    -- We keep track of the player's locale/language.
+    BitesCookBook.ClientLocale = GetLocale()
+
     -- The addon-loading event is unregistered.
     BitesCookBook:UnregisterEvent(event)
 end

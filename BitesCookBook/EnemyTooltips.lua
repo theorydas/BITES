@@ -1,3 +1,5 @@
+local Locale = BitesCookBook.Locales[GetLocale()] or BitesCookBook.Locales["enUS"] -- The default locale is English.
+
 function BitesCookBook.OnEnemyTooltip(Tooltip)
     -- Does the player want to see the tooltip?
     if not BitesCookBook.Options.ShowEnemyTooltip then return end
@@ -32,7 +34,7 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
     -- If the item doesn't correspond to a recipe, do nothing.
     if Enemy == nil then return end
 
-    local text = "\nMight harvest:"
+    local text = "\n".. Locale["MightHavest:"]
     
     -- Cycle through all materials in a recipe to create the tooltip.
     for _, ReagentID in ipairs(Enemy) do
