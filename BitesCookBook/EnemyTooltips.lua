@@ -12,6 +12,12 @@ function BitesCookBook.OnEnemyTooltip(Tooltip)
         return
     end
 
+    -- Hide friendly NPCs.
+    local Reaction = UnitReaction(Unit, "player")
+    if Reaction == nil or Reaction > 4 then -- 3, is hostile, 4 is neutral, 5 is friendly.
+        return
+    end
+
     local UnitID = tonumber(UnitGUID(Unit):match("-(%d+)-%x+$"), 10)
 
     -- Otherwise build the tooltip.
