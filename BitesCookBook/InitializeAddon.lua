@@ -10,6 +10,7 @@ BitesCookBook.Options = {
     DeltaRank = 100, -- In the reagent tooltip, Craftables until player's rank + DeltaRank will be shown.
 	ShowCraftableTooltip = false, -- In the craftable tooltip, show required reagents.
 	ShowEnemyTooltip = true, -- In the enemy tooltip, show droppable reagents.
+        ColorDropsByRank = false, -- In the enemy tooltip, color the reagents by the highest ranked recipe that uses it.
 	HasModifier = 0, -- 0 = no modifier, true = has modifier, false = has inverse modifier
     ModifierKey = "SHIFT", -- SHIFT, ALT, CTRL
 }

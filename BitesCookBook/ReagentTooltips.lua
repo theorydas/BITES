@@ -86,17 +86,7 @@ function BitesCookBook:GetCraftableColor(CraftableID)
     
     local ShouldColorByRank = BitesCookBook.Options.ColorCraftableByRank
     if ShouldColorByRank then
-        if MyRank < RankingRange[1] then
-            return BitesCookBook.TextColors["Red"] -- Red color.
-        elseif MyRank < RankingRange[2] then
-            return BitesCookBook.TextColors["Orange"] -- Orange color.
-        elseif MyRank < RankingRange[3] then
-            return BitesCookBook.TextColors["Yellow"] -- Yellow color.
-        elseif MyRank < RankingRange[4] then
-            return BitesCookBook.TextColors["Green"] -- Green color.
-        else
-            return BitesCookBook.TextColors["Gray"] -- Gray color.
-        end
+        return "|r".. BitesCookBook:GetColorInRange(RankingRange, MyRank)
     end
 
     -- Default color is white. |r is needed to reset the color and prevents leaks.

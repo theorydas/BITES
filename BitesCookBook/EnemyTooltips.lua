@@ -45,10 +45,26 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
     -- Cycle through all materials in a recipe to create the tooltip.
     for _, ReagentID in ipairs(Enemy) do
         local ItemName = BitesCookBook:GetItemNameByID(ReagentID)
-        local ItemColor = BitesCookBook:GetReagentColor(ReagentID)
+        local ItemColor = BitesCookBook:GetDropColor(ReagentID)
 
         text = text .."\n    ".. ItemColor.. ItemName
     end
 
     return text
+end
+
+function BitesCookBook:GetDropColor(ReagentID)
+    -- The player can choose to color the ingredients by rank.
+    -- This is based on the highest ranking recipe that uses the ingredient.
+    -- Since we have already sorted the recipes by rank, we can just take the first one.
+    if BitesCookBook.Options.ColorDropsByRank then
+        local HighestRecipeId = BitesCookBook.CraftablesForReagent[ReagentID][1] -- The first recipe is the highest ranked one.
+        local HighestRanks = BitesCookBook.Recipes[HighestRecipeId]["Range"]
+
+        ItemColor = BitesCookBook:GetColorInRange(HighestRanks, BitesCookBook.CookingSkillRank)
+    else
+        ItemColor = BitesCookBook.TextColors["White"]
+    end
+
+    return "|r".. ItemColor
 end

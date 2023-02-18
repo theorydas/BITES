@@ -42,3 +42,17 @@ function BitesCookBook:CheckModifierKey()
     -- Passes the check.
     return false
 end
+
+function BitesCookBook:GetColorInRange(Range, Rank)
+    if Rank < Range[1] then
+        return BitesCookBook.TextColors["Red"] -- Red color.
+    elseif Rank < Range[2] then
+        return BitesCookBook.TextColors["Orange"] -- Orange color.
+    elseif Rank < Range[3] then
+        return BitesCookBook.TextColors["Yellow"] -- Yellow color.
+    elseif Rank < Range[4] then
+        return BitesCookBook.TextColors["Green"] -- Green color.
+    else
+        return BitesCookBook.TextColors["Gray"] -- Gray color.
+    end
+end

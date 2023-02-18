@@ -48,6 +48,17 @@ local function PreventGray()
     end
 end
 
+local function PreventDropColor()
+    local AffectedFrame = BitesCookBook_ConfigFrame["ColorDropsByRank"]
+
+    if not BitesCookBook.Options["ShowEnemyTooltip"] then
+        BitesCookBook.Options["ColorDropsByRank"] = false
+        FrameSwitch(AffectedFrame, false)
+    else
+        FrameSwitch(AffectedFrame, true)
+    end
+end
+
 local function PreventAllIngredients()
     local AffectedFrames = {"ShowCraftableFirstRank", "ShowCraftableRankRange", "HideReagentTooltipsButHint", "GrayHighCraftables", "ColorCraftableByRank", "ShowCraftableIcon"}
     
@@ -102,7 +113,7 @@ function BitesCookBook:InitializeOptionsMenu()
     BitesCookBook:CreateCheckBox("HideReagentTooltipsButHint", Locale["HideReagentTooltipsButHint"], PreventAllIngredientsFromHint)
 
     BitesCookBook:CreateCheckBox("ShowCraftableFirstRank", Locale["ShowCraftableFirstRank"], PreventLevelRange)
-    AllLevelRangesBox = BitesCookBook:CreateCheckBox("ShowCraftableRankRange", Locale["ShowCraftableRankRange"])
+    local AllLevelRangesBox = BitesCookBook:CreateCheckBox("ShowCraftableRankRange", Locale["ShowCraftableRankRange"])
     AllLevelRangesBox:SetPoint("TOPLEFT", 20 + 20, -Position + DeltaP_Box)
 
     BitesCookBook:CreateCheckBox("GrayHighCraftables", Locale["GrayHighCraftables"], PreventColor)
@@ -132,10 +143,13 @@ function BitesCookBook:InitializeOptionsMenu()
     
     BitesCookBook_ConfigFrame.Misc = BitesCookBook:CreateTitle("Misc", Locale["Misc"], "")
     BitesCookBook:CreateCheckBox("ShowCraftableTooltip", Locale["ShowCraftableTooltip"])
-    BitesCookBook:CreateCheckBox("ShowEnemyTooltip", Locale["ShowEnemyTooltip"])
+    BitesCookBook:CreateCheckBox("ShowEnemyTooltip", Locale["ShowEnemyTooltip"], PreventDropColor)
+    local ColorsDrop = BitesCookBook:CreateCheckBox("ColorDropsByRank", Locale["ColorDropsByRank"])
+    ColorsDrop:SetPoint("TOPLEFT", 20 + 20, -Position + DeltaP_Box)
     
     PreventColor()
     PreventGray()
+    PreventDropColor()
     PreventLevelRange()
 
     -- A dropdrown frame.
