@@ -98,6 +98,19 @@ function BitesCookBook:GetAllMobs(ReagentsDict)
         end
     end
 
+    -- Sort the ingredient drops of each mobs on the list based on their max-used recipe range.
+    for MobID, Drops in pairs(MobsAndDrops) do
+        table.sort(Drops, function(IngredientID_A, IngredientID_B)
+            local HighestRecipeId_A = BitesCookBook.CraftablesForReagent[IngredientID_A][1] -- The first recipe is the highest ranked one.
+            local HighestRanks_A = BitesCookBook.Recipes[HighestRecipeId_A]["Range"]
+
+            local HighestRecipeId_B = BitesCookBook.CraftablesForReagent[IngredientID_B][1] -- The first recipe is the highest ranked one.
+            local HighestRanks_B = BitesCookBook.Recipes[HighestRecipeId_B]["Range"]
+
+            return HighestRanks_A[1] > HighestRanks_B[1]
+        end)
+    end
+
     return MobsAndDrops
 end
 
