@@ -40,14 +40,21 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
     -- If the item doesn't correspond to a recipe, do nothing.
     if Enemy == nil then return end
 
-    local text = "\n".. Locale["MightHavest:"]
+    -- local text = "\n".. Locale["MightHavest:"]
+    local text = ""
     
     -- Cycle through all materials in a recipe to create the tooltip.
-    for _, ReagentID in ipairs(Enemy) do
+    for i, ReagentID in ipairs(Enemy) do
         local ItemName = BitesCookBook:GetItemNameByID(ReagentID)
         local ItemColor = BitesCookBook:GetDropColor(ReagentID)
 
-        text = text .."\n    ".. ItemColor.. ItemName
+        -- Show the item's texture.
+        if i > 1 then
+            text = text.. "\n"
+        end
+        -- Decide which icon, if any, we want to show.
+        -- text = text .."    ".. ItemColor.. "|T".. BitesCookBook:GetItemIcon(ReagentID).. ":0|t ".. ItemName
+        text = text .."    ".. ItemColor.. "|TInterface\\Icons\\inv_misc_food_15.png:0|t ".. ItemName
     end
 
     return text
