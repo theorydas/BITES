@@ -261,7 +261,7 @@ function BitesCookBook:CreateTitle(Name, ShortDescription, LongDescription)
 end
 
 function BitesCookBook:CreateCheckBox(Name, Description, ExtraFunction) -- Warning, name of checkbox is same as the variable it changes!
-    BitesCookBook_ConfigFrame[Name] = CreateFrame("CheckButton", Name, BitesCookBook_ConfigFrame, "UICheckButtonTemplate")
+    BitesCookBook_ConfigFrame[Name] = CreateFrame("CheckButton", "BitesCookBook".. Name, BitesCookBook_ConfigFrame, "UICheckButtonTemplate")
     BitesCookBook_ConfigFrame[Name]:SetPoint("TOPLEFT", 20, -Position)
     
     getglobal(BitesCookBook_ConfigFrame[Name]:GetName() .. 'Text'):SetText(Description)
