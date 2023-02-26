@@ -49,13 +49,7 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
 
         -- The first recipe is the highest ranked one.
         local HighestRecipeID = BitesCookBook.CraftablesForReagent[ReagentID][1]
-        local RankingRange = BitesCookBook.Recipes[HighestRecipeID]["Range"]
-        local MinimumCategory = BitesCookBook.Options.MinRankCategory
-        local MaximumCategory = BitesCookBook.Options.MaxRankCategory
-
-        -- We need to find which category the recipe is in based on its RankingRange and the player's rank.
-        local RecipeCategory = BitesCookBook:GetCategoryInRange(RankingRange, BitesCookBook.CookingSkillRank)
-        if RecipeCategory >= MinimumCategory and RecipeCategory <= MaximumCategory then
+        if BitesCookBook:IsRecipeInRange(HighestRecipeID) then
             -- Show the item's texture.
             if i > 1 then
                 text = text.. "\n"
@@ -68,6 +62,7 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
 
     return text
 end
+-- The options can be like: Show icon (if only one, they are in a line), show name and both can be up the same time...
 
 function BitesCookBook:GetDropColor(ReagentID)
     -- The player can choose to color the ingredients by rank.

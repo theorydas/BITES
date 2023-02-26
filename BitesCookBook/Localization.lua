@@ -36,11 +36,12 @@ BitesCookBook.Locales["enUS"]["Misc"] = "Miscellaneous"
 BitesCookBook.Locales["enUS"]["ShowCraftableTooltip"] = "Show meal/recipe tooltips."
 BitesCookBook.Locales["enUS"]["ShowEnemyTooltip"] = "Show possible ingredients under enemies."
 BitesCookBook.Locales["enUS"]["ColorDropsByRank"] = "Color an ingredient based on the highest ranking meal it can be used for."
-BitesCookBook.Locales["enUS"]["WhenModifierPressed"] = "When modifier is pressed:"
+BitesCookBook.Locales["enUS"]["WhenModifierPressed"] = "On modifier:"
 BitesCookBook.Locales["enUS"]["DoNothing"] = "Do nothing"
 BitesCookBook.Locales["enUS"]["ShowTooltip"] = "Show tooltip"
 BitesCookBook.Locales["enUS"]["HideTooltip"] = "Hide tooltip"
-BitesCookBook.Locales["enUS"]["RevealKey"] = "Reveal Tooltip Key"
+BitesCookBook.Locales["enUS"]["UnlockFilters"] = "Unlock filters"
+BitesCookBook.Locales["enUS"]["ModifierKey"] = "Modifier Key"
 BitesCookBook.Locales["enUS"]["Key"] = " Key"
 
 -- For French, we repeat the English text afterwards as a comment. The comments should be aligned in script.
@@ -72,11 +73,12 @@ BitesCookBook.Locales["frFR"]["Misc"] = "Divers"                             -- 
 BitesCookBook.Locales["frFR"]["ShowCraftableTooltip"] = "Afficher les info-bulles des recettes." -- Show meal/recipe tooltips.
 BitesCookBook.Locales["frFR"]["ShowEnemyTooltip"] = "Afficher les ingrédients possibles sous les ennemis." -- Show possible ingredients under enemies.
 BitesCookBook.Locales["frFR"]["ColorDropsByRank"] = "Colorer un ingrédient selon le niveau de compétence de la recette la plus élevée qui peut l'utiliser." -- Color an ingredient based on the highest ranking meal it can be used for.
-BitesCookBook.Locales["frFR"]["WhenModifierPressed"] = "Quand la touche de modification est pressée:" -- When modifier is pressed:
+BitesCookBook.Locales["frFR"]["WhenModifierPressed"] = "Sur modificateur:" -- On modifier:
 BitesCookBook.Locales["frFR"]["DoNothing"] = "Ne rien faire"                -- Do nothing
 BitesCookBook.Locales["frFR"]["ShowTooltip"] = "Afficher l'info-bulle"      -- Show tooltip
 BitesCookBook.Locales["frFR"]["HideTooltip"] = "Cacher l'info-bulle"        -- Hide tooltip
-BitesCookBook.Locales["frFR"]["RevealKey"] = "Touche pour afficher l'info-bulle" -- Reveal Tooltip Key
+BitesCookBook.Locales["frFR"]["UnlockFilters"] = "Déverrouiller les filtres" -- Unlock filters
+BitesCookBook.Locales["frFR"]["ModifierKey"] = "Touche de modification"       -- Modifier Key
 BitesCookBook.Locales["frFR"]["Key"] = " Touche"                            -- Key
 
 
@@ -109,11 +111,12 @@ BitesCookBook.Locales["deDE"]["Misc"] = "Verschiedenes"                     -- M
 BitesCookBook.Locales["deDE"]["ShowCraftableTooltip"] = "Zeige Rezept-Tooltip." -- Show meal/recipe tooltips.
 BitesCookBook.Locales["deDE"]["ShowEnemyTooltip"] = "Zeige mögliche Zutaten unter Gegnern." -- Show possible ingredients under enemies.
 BitesCookBook.Locales["deDE"]["ColorDropsByRank"] = "Färbe Zutaten nach dem Kochlevel des effektivsten Rezepts, das sie verwenden kann." -- Color an ingredient based on the highest ranking meal it can be used for.
-BitesCookBook.Locales["deDE"]["WhenModifierPressed"] = "Wenn die Modifikationstaste gedrückt wird:" -- When modifier is pressed:
+BitesCookBook.Locales["deDE"]["WhenModifierPressed"] = "Auf modifikator:" -- On modifier:
 BitesCookBook.Locales["deDE"]["DoNothing"] = "Nichts tun"                   -- Do nothing
 BitesCookBook.Locales["deDE"]["ShowTooltip"] = "Tooltip anzeigen"          -- Show tooltip
 BitesCookBook.Locales["deDE"]["HideTooltip"] = "Tooltip verstecken"        -- Hide tooltip
-BitesCookBook.Locales["deDE"]["RevealKey"] = "Taste zum Anzeigen des Tooltips" -- Reveal Tooltip Key
+BitesCookBook.Locales["deDE"]["UnlockFilters"] = "Filter freischalten"     -- Unlock filters
+BitesCookBook.Locales["deDE"]["ModifierKey"] = "Modifikationstaste"           -- Modifier Key
 BitesCookBook.Locales["deDE"]["Key"] = " Taste"                             -- Key
 
 
@@ -146,9 +149,10 @@ BitesCookBook.Locales["esES"]["Misc"] = "Miscelánea"                       -- M
 BitesCookBook.Locales["esES"]["ShowCraftableTooltip"] = "Mostrar información de recetas." -- Show meal/recipe tooltips.
 BitesCookBook.Locales["esES"]["ShowEnemyTooltip"] = "Mostrar ingredientes posibles bajo enemigos." -- Show possible ingredients under enemies.
 BitesCookBook.Locales["esES"]["ColorDropsByRank"] = "Colorear ingredientes según el nivel de cocina de la receta más eficiente que pueden usar." -- Color an ingredient based on the highest ranking meal it can be used for.
-BitesCookBook.Locales["esES"]["WhenModifierPressed"] = "Cuando se presiona la tecla modificadora:" -- When modifier is pressed:
+BitesCookBook.Locales["esES"]["WhenModifierPressed"] = "En modificador:" -- On modifier:
 BitesCookBook.Locales["esES"]["DoNothing"] = "No hacer nada"               -- Do nothing
 BitesCookBook.Locales["esES"]["ShowTooltip"] = "Mostrar información"       -- Show tooltip
 BitesCookBook.Locales["esES"]["HideTooltip"] = "Ocultar información"       -- Hide tooltip
-BitesCookBook.Locales["esES"]["RevealKey"] = "Tecla para mostrar información" -- Reveal Tooltip Key
+BitesCookBook.Locales["esES"]["UnlockFilters"] = "Desbloquear filtros"     -- Unlock filters
+BitesCookBook.Locales["esES"]["ModifierKey"] = "Tecla modificadora"           -- Modifier Key
 BitesCookBook.Locales["esES"]["Key"] = " Tecla"                             -- Key

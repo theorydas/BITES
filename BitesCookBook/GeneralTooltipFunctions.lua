@@ -33,8 +33,9 @@ function BitesCookBook:GetItemIcon(ItemId)
 end
 
 function BitesCookBook:CheckModifierKey()
-    if BitesCookBook.Options.HasModifier ~= 0 then
-        if BitesCookBook.ModifierKeys[BitesCookBook.Options.ModifierKey]() == not BitesCookBook.Options.HasModifier then
+    local ModifierValue = BitesCookBook.Options.HasModifier
+    if ModifierValue ~= 0 and ModifierValue ~= 1 then
+        if BitesCookBook.ModifierKeys[BitesCookBook.Options.ModifierKey]() == not ModifierValue then
             return true
         end
     end
@@ -55,4 +56,24 @@ function BitesCookBook:GetColorInRange(Range, Rank)
     else
         return BitesCookBook.TextColors["Gray"] -- Gray color.
     end
+end
+
+function BitesCookBook:IsRecipeInRange(RecipeId)
+    -- If the user has the modifier key set to "Unlock filters", we should always return true.
+    if BitesCookBook.Options.HasModifier == 1 and BitesCookBook.ModifierKeys[BitesCookBook.Options.ModifierKey]() == not ModifierValue then
+        return true
+    end
+    
+    -- Otherwise, check if the recipe is in the player's range.
+    local RankingRange = BitesCookBook.Recipes[RecipeId]["Range"]
+    local MinimumCategory = BitesCookBook.Options.MinRankCategory
+    local MaximumCategory = BitesCookBook.Options.MaxRankCategory
+
+    -- We need to find which category the recipe is in based on its RankingRange and the player's rank.
+    local RecipeCategory = BitesCookBook:GetCategoryInRange(RankingRange, BitesCookBook.CookingSkillRank)
+    if RecipeCategory >= MinimumCategory and RecipeCategory <= MaximumCategory then
+        return true
+    end
+
+    return false
 end

@@ -40,13 +40,7 @@ function BitesCookBook:BuildTooltipForReagent(ReagentID)
     local text = ""
     -- Cycle through all recipes that use the ingredient to create the tooltip.
     for _, RecipeID in ipairs(CraftablesMadeWithIngredient) do
-        local RankingRange = BitesCookBook.Recipes[RecipeID]["Range"]
-        local MinimumCategory = BitesCookBook.Options.MinRankCategory
-        local MaximumCategory = BitesCookBook.Options.MaxRankCategory
-
-        -- We need to find which category the recipe is in based on its RankingRange and the player's rank.
-        local RecipeCategory = BitesCookBook:GetCategoryInRange(RankingRange, BitesCookBook.CookingSkillRank)
-        if RecipeCategory >= MinimumCategory and RecipeCategory <= MaximumCategory then
+        if BitesCookBook:IsRecipeInRange(RecipeID) then
             local CraftableName = BitesCookBook:GetItemNameByID(RecipeID)
             local CraftableColor = BitesCookBook:GetCraftableColor(RecipeID)
 

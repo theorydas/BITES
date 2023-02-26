@@ -180,7 +180,7 @@ function BitesCookBook:InitializeOptionsMenu()
     BitesCookBook_ConfigFrame.DeltaRankMax.High:SetText(BitesCookBook.TextColors["Red"].. "Red".. "|r")
 
     Position = Position + DeltaP_Box + 20
-    
+
     PreventColor()
     PreventGray()
     PreventDropColor()
@@ -196,6 +196,8 @@ function BitesCookBook:InitializeOptionsMenu()
     
     if BitesCookBook.Options.HasModifier == 0 then
         UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, Locale["DoNothing"])
+    elseif BitesCookBook.Options.HasModifier == 1 then
+        UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, Locale["UnlockFilters"])
     elseif BitesCookBook.Options.HasModifier == true then
         UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, Locale["ShowTooltip"])
     else
@@ -230,6 +232,15 @@ function BitesCookBook:InitializeOptionsMenu()
         end,
         BitesCookBook.Options.HasModifier == false
         UIDropDownMenu_AddButton(info)
+
+        --------------------
+        info.text, info.arg1, info.func, info.checked = Locale["UnlockFilters"], Locale["UnlockFilters"],
+        function(self)
+            BitesCookBook.Options.HasModifier = 1
+            UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.show_or_hide, Locale["UnlockFilters"])
+        end,
+        BitesCookBook.Options.HasModifier == 1
+        UIDropDownMenu_AddButton(info)
     end)
 
     -- A dropdrown frame.
@@ -237,7 +248,7 @@ function BitesCookBook:InitializeOptionsMenu()
     BitesCookBook_ConfigFrame.modifier:SetPoint("TOPLEFT", 250, -Position - DeltaP_Box)
     BitesCookBook_ConfigFrame.modifier.text = BitesCookBook_ConfigFrame.modifier:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     BitesCookBook_ConfigFrame.modifier.text:SetPoint("BOTTOMLEFT", BitesCookBook_ConfigFrame.modifier, "TOPLEFT", 21, 0)
-    BitesCookBook_ConfigFrame.modifier.text:SetText(Locale["RevealKey"])
+    BitesCookBook_ConfigFrame.modifier.text:SetText(Locale["ModifierKey"])
     
     UIDropDownMenu_SetText(BitesCookBook_ConfigFrame.modifier, BitesCookBook.Options.ModifierKey.. Locale["Key"])
 
@@ -252,6 +263,7 @@ function BitesCookBook:InitializeOptionsMenu()
         BitesCookBook.Options.ModifierKey == "SHIFT"
         UIDropDownMenu_AddButton(info)
 
+        --------------------
         info.text, info.arg1, info.func, info.checked = "CTRL".. Locale["Key"], "CTRL".. Locale["Key"],
         function(self)
             BitesCookBook.Options.ModifierKey = "CTRL"
@@ -260,6 +272,7 @@ function BitesCookBook:InitializeOptionsMenu()
         BitesCookBook.Options.ModifierKey == "CTRL"
         UIDropDownMenu_AddButton(info)
 
+        --------------------
         info.text, info.arg1, info.func, info.checked = "ALT".. Locale["Key"], "ALT".. Locale["Key"],
         function(self)
             BitesCookBook.Options.ModifierKey = "ALT"
