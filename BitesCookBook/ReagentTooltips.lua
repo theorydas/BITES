@@ -69,7 +69,7 @@ function BitesCookBook:BuildTooltipForReagent(ReagentID)
     end
 
     if text ~= "" then
-        text = "\n".. Locale["IngredientFor:"].. text
+        text = Locale["IngredientFor:"].. text
     end
     
     return text
