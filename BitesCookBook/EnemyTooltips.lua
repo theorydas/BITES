@@ -47,13 +47,23 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
         local ItemName = BitesCookBook:GetItemNameByID(ReagentID)
         local ItemColor = BitesCookBook:GetDropColor(ReagentID)
 
-        -- Show the item's texture.
-        if i > 1 then
-            text = text.. "\n"
+        -- The first recipe is the highest ranked one.
+        local HighestRecipeID = BitesCookBook.CraftablesForReagent[ReagentID][1]
+        local RankingRange = BitesCookBook.Recipes[HighestRecipeID]["Range"]
+        local MinimumCategory = BitesCookBook.Options.MinRankCategory
+        local MaximumCategory = BitesCookBook.Options.MaxRankCategory
+
+        -- We need to find which category the recipe is in based on its RankingRange and the player's rank.
+        local RecipeCategory = BitesCookBook:GetCategoryInRange(RankingRange, BitesCookBook.CookingSkillRank)
+        if RecipeCategory >= MinimumCategory and RecipeCategory <= MaximumCategory then
+            -- Show the item's texture.
+            if i > 1 then
+                text = text.. "\n"
+            end
+            -- Decide which icon, if any, we want to show.
+            -- text = text .."    ".. ItemColor.. "|T".. BitesCookBook:GetItemIcon(ReagentID).. ":0|t ".. ItemName
+            text = text .."    ".. ItemColor.. "|TInterface\\Icons\\inv_misc_food_15.png:0|t ".. ItemName
         end
-        -- Decide which icon, if any, we want to show.
-        -- text = text .."    ".. ItemColor.. "|T".. BitesCookBook:GetItemIcon(ReagentID).. ":0|t ".. ItemName
-        text = text .."    ".. ItemColor.. "|TInterface\\Icons\\inv_misc_food_15.png:0|t ".. ItemName
     end
 
     return text
