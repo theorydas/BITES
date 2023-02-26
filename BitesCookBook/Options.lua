@@ -119,8 +119,14 @@ function BitesCookBook:InitializeOptionsMenu()
 
     BitesCookBook:CreateCheckBox("GrayHighCraftables", Locale["GrayHighCraftables"], PreventColor)
     BitesCookBook:CreateCheckBox("ColorCraftableByRank", Locale["ColorCraftableByRank"], PreventGray)
-    BitesCookBook:CreateCheckBox("ShowCraftableIcon", Locale["ShowCraftableIcon"])
-
+    BitesCookBook:CreateCheckBox("ShowCraftableIcon", Locale["ShowCraftableIcon"])    
+    
+    BitesCookBook_ConfigFrame.Misc = BitesCookBook:CreateTitle("Misc", Locale["Misc"], "")
+    BitesCookBook:CreateCheckBox("ShowCraftableTooltip", Locale["ShowCraftableTooltip"])
+    BitesCookBook:CreateCheckBox("ShowEnemyTooltip", Locale["ShowEnemyTooltip"], PreventDropColor)
+    local ColorsDrop = BitesCookBook:CreateCheckBox("ColorDropsByRank", Locale["ColorDropsByRank"])
+    ColorsDrop:SetPoint("TOPLEFT", 20 + 20, -Position + DeltaP_Box)
+    
     -- A horizontal sliding bar that controls the min level.
     BitesCookBook_ConfigFrame.DeltaRankMin = CreateFrame("Slider", "BitesCookBook_MaxLevel", BitesCookBook_ConfigFrame, "OptionsSliderTemplate")
     BitesCookBook_ConfigFrame.DeltaRankMin:SetMinMaxValues(1, 5)
@@ -174,13 +180,6 @@ function BitesCookBook:InitializeOptionsMenu()
     BitesCookBook_ConfigFrame.DeltaRankMax.High:SetText(BitesCookBook.TextColors["Red"].. "Red".. "|r")
 
     Position = Position + DeltaP_Box + 20
-    
-    
-    BitesCookBook_ConfigFrame.Misc = BitesCookBook:CreateTitle("Misc", Locale["Misc"], "")
-    BitesCookBook:CreateCheckBox("ShowCraftableTooltip", Locale["ShowCraftableTooltip"])
-    BitesCookBook:CreateCheckBox("ShowEnemyTooltip", Locale["ShowEnemyTooltip"], PreventDropColor)
-    local ColorsDrop = BitesCookBook:CreateCheckBox("ColorDropsByRank", Locale["ColorDropsByRank"])
-    ColorsDrop:SetPoint("TOPLEFT", 20 + 20, -Position + DeltaP_Box)
     
     PreventColor()
     PreventGray()
