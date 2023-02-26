@@ -10,7 +10,7 @@ BitesCookBook.Locales = {}
 -- The default locale is English.
 BitesCookBook.Locales["enUS"] = {}
 BitesCookBook.Locales["enUS"]["UsedHint"] = "Used in cooking."
-BitesCookBook.Locales["enUS"]["IngredientFor:"] = "Ingredient for:"
+BitesCookBook.Locales["enUS"]["IngredientFor:"] = "Can cook:"
 BitesCookBook.Locales["enUS"]["Starter"] = "Starter"
 BitesCookBook.Locales["enUS"]["Recipe:"] = "Recipe:"
 
@@ -48,7 +48,7 @@ BitesCookBook.Locales["enUS"]["Key"] = " Key"
 -- For example:
 BitesCookBook.Locales["frFR"] = {}
 BitesCookBook.Locales["frFR"]["UsedHint"] = "Utilisé en cuisine."           -- Used in cooking.
-BitesCookBook.Locales["frFR"]["IngredientFor:"] = "Ingrédient pour:"        -- Ingredient for:
+BitesCookBook.Locales["frFR"]["IngredientFor:"] = "Peut cuisiner:" -- Can cook:
 BitesCookBook.Locales["frFR"]["Starter"] = "Entrée"                         -- Starter
 BitesCookBook.Locales["frFR"]["Recipe:"] = "Recette:"                       -- Recipe:
 
@@ -86,7 +86,7 @@ BitesCookBook.Locales["frFR"]["Key"] = " Touche"                            -- K
 -- For example:
 BitesCookBook.Locales["deDE"] = {}
 BitesCookBook.Locales["deDE"]["UsedHint"] = "Wird in der Küche verwendet."  -- Used in cooking.
-BitesCookBook.Locales["deDE"]["IngredientFor:"] = "Zutat für:"              -- Ingredient for:
+BitesCookBook.Locales["deDE"]["IngredientFor:"] = "Kann kochen:"              -- Can cook:
 BitesCookBook.Locales["deDE"]["Starter"] = "Vorspeise"                      -- Starter
 BitesCookBook.Locales["deDE"]["Recipe:"] = "Rezept:"                        -- Recipe:
 
@@ -124,7 +124,7 @@ BitesCookBook.Locales["deDE"]["Key"] = " Taste"                             -- K
 -- For example:
 BitesCookBook.Locales["esES"] = {}
 BitesCookBook.Locales["esES"]["UsedHint"] = "Usado en la cocina."           -- Used in cooking.
-BitesCookBook.Locales["esES"]["IngredientFor:"] = "Ingrediente para:"       -- Ingredient for:
+BitesCookBook.Locales["esES"]["IngredientFor:"] = "Puede cocinar:"          -- Can cook:
 BitesCookBook.Locales["esES"]["Starter"] = "Entrante"                       -- Starter
 BitesCookBook.Locales["esES"]["Recipe:"] = "Receta:"                        -- Recipe:
 
