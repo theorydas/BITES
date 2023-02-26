@@ -40,7 +40,6 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
     -- If the item doesn't correspond to a recipe, do nothing.
     if Enemy == nil then return end
 
-    -- local text = "\n".. Locale["MightHavest:"]
     local text = ""
     
     -- Cycle through all materials in a recipe to create the tooltip.

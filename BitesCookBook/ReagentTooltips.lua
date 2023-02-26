@@ -37,8 +37,7 @@ function BitesCookBook:BuildTooltipForReagent(ReagentID)
     local CraftablesMadeWithIngredient = BitesCookBook.CraftablesForReagent[ReagentID] -- A list of recipes that use the ingredient.
     if CraftablesMadeWithIngredient == nil then return end
     
-    local text = "\n".. Locale["IngredientFor:"]
-    
+    local text = ""
     -- Cycle through all recipes that use the ingredient to create the tooltip.
     for _, RecipeID in ipairs(CraftablesMadeWithIngredient) do
         local RankingRange = BitesCookBook.Recipes[RecipeID]["Range"]
@@ -72,6 +71,10 @@ function BitesCookBook:BuildTooltipForReagent(ReagentID)
         end
     end
 
+    if text ~= "" then
+        text = "\n".. Locale["IngredientFor:"].. text
+    end
+    
     return text
 end
 
