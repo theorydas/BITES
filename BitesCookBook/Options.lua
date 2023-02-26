@@ -100,6 +100,7 @@ end
 -- Keep track of the vertical position of option items.
 local Position = -10
 local DeltaP_Box = 29
+local RankIdToColor = {"Gray", "Green", "Yellow", "Orange", "Red"}
 
 function BitesCookBook:InitializeOptionsMenu()
     BitesCookBook_ConfigFrame = CreateFrame("Frame", "BitesCookBook_InterfaceOptionsPanel", UIParent)
@@ -120,23 +121,57 @@ function BitesCookBook:InitializeOptionsMenu()
     BitesCookBook:CreateCheckBox("ColorCraftableByRank", Locale["ColorCraftableByRank"], PreventGray)
     BitesCookBook:CreateCheckBox("ShowCraftableIcon", Locale["ShowCraftableIcon"])
 
-    -- A horizontal sliding bar that controls the max level.
-    BitesCookBook_ConfigFrame.DeltaRank = CreateFrame("Slider", "BitesCookBook_MaxLevel", BitesCookBook_ConfigFrame, "OptionsSliderTemplate")
-    BitesCookBook_ConfigFrame.DeltaRank:SetMinMaxValues(0, 300)
-    BitesCookBook_ConfigFrame.DeltaRank:SetValueStep(10)
-    BitesCookBook_ConfigFrame.DeltaRank:SetObeyStepOnDrag(true)
-    BitesCookBook_ConfigFrame.DeltaRank:SetOrientation("HORIZONTAL")
-    BitesCookBook_ConfigFrame.DeltaRank:SetSize(200, 20)
-    BitesCookBook_ConfigFrame.DeltaRank:SetPoint("TOPLEFT", 10, -Position - DeltaP_Box)
-    BitesCookBook_ConfigFrame.DeltaRank:SetScript("OnValueChanged",
+    -- A horizontal sliding bar that controls the min level.
+    BitesCookBook_ConfigFrame.DeltaRankMin = CreateFrame("Slider", "BitesCookBook_MaxLevel", BitesCookBook_ConfigFrame, "OptionsSliderTemplate")
+    BitesCookBook_ConfigFrame.DeltaRankMin:SetMinMaxValues(1, 5)
+    BitesCookBook_ConfigFrame.DeltaRankMin:SetValueStep(1)
+    BitesCookBook_ConfigFrame.DeltaRankMin:SetObeyStepOnDrag(true)
+    BitesCookBook_ConfigFrame.DeltaRankMin:SetOrientation("HORIZONTAL")
+    BitesCookBook_ConfigFrame.DeltaRankMin:SetSize(200, 20)
+    BitesCookBook_ConfigFrame.DeltaRankMin:SetPoint("TOPLEFT", 10, -Position - DeltaP_Box)
+    BitesCookBook_ConfigFrame.DeltaRankMin:SetScript("OnValueChanged",
     function(self, value)
-        BitesCookBook.Options.DeltaRank = value
-        BitesCookBook_ConfigFrame.DeltaRank.text:SetText(Locale["RankThreshold"]..BitesCookBook.Options.DeltaRank)
+        local RankColor = BitesCookBook.TextColors[RankIdToColor[value]]
+        local RankText = Locale["RankColor_".. value]
+
+        BitesCookBook.Options.MinRankCategory = value
+        BitesCookBook_ConfigFrame.DeltaRankMin.text:SetText(Locale["LowerLimit"].. " ".. RankColor.. RankText.. "|r")
     end)
-    BitesCookBook_ConfigFrame.DeltaRank.text = BitesCookBook_ConfigFrame.DeltaRank:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    BitesCookBook_ConfigFrame.DeltaRank.text:SetPoint("BOTTOMLEFT", BitesCookBook_ConfigFrame.DeltaRank, "TOPLEFT", 0, 0)
-    BitesCookBook_ConfigFrame.DeltaRank.text:SetText(Locale["RankThreshold"]..BitesCookBook.Options.DeltaRank)
-    BitesCookBook_ConfigFrame.DeltaRank:SetValue(BitesCookBook.Options.DeltaRank)
+    local RankColor = BitesCookBook.TextColors[RankIdToColor[BitesCookBook.Options.MinRankCategory]]
+    local RankText = Locale["RankColor_".. BitesCookBook.Options.MinRankCategory]
+
+    BitesCookBook_ConfigFrame.DeltaRankMin.text = BitesCookBook_ConfigFrame.DeltaRankMin:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    BitesCookBook_ConfigFrame.DeltaRankMin.text:SetPoint("BOTTOMLEFT", BitesCookBook_ConfigFrame.DeltaRankMin, "TOPLEFT", 0, 0)
+    BitesCookBook_ConfigFrame.DeltaRankMin.text:SetText(Locale["LowerLimit"].. " ".. RankColor.. RankText.. "|r")
+    BitesCookBook_ConfigFrame.DeltaRankMin:SetValue(BitesCookBook.Options.MinRankCategory)
+    BitesCookBook_ConfigFrame.DeltaRankMin.Low:SetText(BitesCookBook.TextColors["Gray"].. "Gray".. "|r")
+    BitesCookBook_ConfigFrame.DeltaRankMin.High:SetText(BitesCookBook.TextColors["Red"].. "Red".. "|r")
+
+    -- A horizontal sliding bar that controls the max level.
+    BitesCookBook_ConfigFrame.DeltaRankMax = CreateFrame("Slider", "BitesCookBook_MaxLevel", BitesCookBook_ConfigFrame, "OptionsSliderTemplate")
+    BitesCookBook_ConfigFrame.DeltaRankMax:SetMinMaxValues(1, 5)
+    BitesCookBook_ConfigFrame.DeltaRankMax:SetValueStep(1)
+    BitesCookBook_ConfigFrame.DeltaRankMax:SetObeyStepOnDrag(true)
+    BitesCookBook_ConfigFrame.DeltaRankMax:SetOrientation("HORIZONTAL")
+    BitesCookBook_ConfigFrame.DeltaRankMax:SetSize(200, 20)
+    BitesCookBook_ConfigFrame.DeltaRankMax:SetPoint("TOPLEFT", 250, -Position - DeltaP_Box)
+    BitesCookBook_ConfigFrame.DeltaRankMax:SetScript("OnValueChanged",
+    function(self, value)
+        local RankColor = BitesCookBook.TextColors[RankIdToColor[value]]
+        local RankText = Locale["RankColor_".. value]
+
+        BitesCookBook.Options.MaxRankCategory = value
+        BitesCookBook_ConfigFrame.DeltaRankMax.text:SetText(Locale["UpperLimit"].. " ".. RankColor.. RankText.. "|r")
+    end)
+    local RankColor = BitesCookBook.TextColors[RankIdToColor[BitesCookBook.Options.MaxRankCategory]]
+    local RankText = Locale["RankColor_".. BitesCookBook.Options.MaxRankCategory]
+
+    BitesCookBook_ConfigFrame.DeltaRankMax.text = BitesCookBook_ConfigFrame.DeltaRankMax:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    BitesCookBook_ConfigFrame.DeltaRankMax.text:SetPoint("BOTTOMLEFT", BitesCookBook_ConfigFrame.DeltaRankMax, "TOPLEFT", 0, 0)
+    BitesCookBook_ConfigFrame.DeltaRankMax.text:SetText(Locale["UpperLimit"].. " ".. RankColor.. RankText.. "|r")
+    BitesCookBook_ConfigFrame.DeltaRankMax:SetValue(BitesCookBook.Options.MaxRankCategory)
+    BitesCookBook_ConfigFrame.DeltaRankMax.Low:SetText(BitesCookBook.TextColors["Gray"].. "Gray".. "|r")
+    BitesCookBook_ConfigFrame.DeltaRankMax.High:SetText(BitesCookBook.TextColors["Red"].. "Red".. "|r")
 
     Position = Position + DeltaP_Box + 20
     

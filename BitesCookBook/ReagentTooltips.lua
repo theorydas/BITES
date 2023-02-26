@@ -41,9 +41,12 @@ function BitesCookBook:BuildTooltipForReagent(ReagentID)
     -- Cycle through all recipes that use the ingredient to create the tooltip.
     for _, RecipeID in ipairs(CraftablesMadeWithIngredient) do
         local RankingRange = BitesCookBook.Recipes[RecipeID]["Range"]
-        local DeltaRank = BitesCookBook.Options.DeltaRank
+        local MinimumCategory = BitesCookBook.Options.MinRankCategory
+        local MaximumCategory = BitesCookBook.Options.MaxRankCategory
 
-        if BitesCookBook.CookingSkillRank + DeltaRank >= RankingRange[1] then
+        -- We need to find which category the recipe is in based on its RankingRange and the player's rank.
+        local RecipeCategory = BitesCookBook:GetCategoryInRange(RankingRange, BitesCookBook.CookingSkillRank)
+        if RecipeCategory >= MinimumCategory and RecipeCategory <= MaximumCategory then
             local CraftableName = BitesCookBook:GetItemNameByID(RecipeID)
             local CraftableColor = BitesCookBook:GetCraftableColor(RecipeID)
 
@@ -94,4 +97,14 @@ function BitesCookBook:GetCraftableColor(CraftableID)
 
     -- Default color is white. |r is needed to reset the color and prevents leaks.
     return "|r".. BitesCookBook.TextColors["White"]
+end
+
+function BitesCookBook:GetCategoryInRange(RankingRange, Rank)
+    for i = 1, 4 do
+        if Rank > RankingRange[5 -i] then -- The list goes from red to gray.
+            return i
+        end
+    end
+    -- If the player's rank is higher than the highest rank, we return 5 i.e. red.
+    return 5
 end
