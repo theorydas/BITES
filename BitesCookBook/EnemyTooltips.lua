@@ -55,8 +55,7 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
                 text = text.. "\n"
             end
             -- Decide which icon, if any, we want to show.
-            -- text = text .."    ".. ItemColor.. "|T".. BitesCookBook:GetItemIcon(ReagentID).. ":0|t ".. ItemName
-            text = text .."    ".. ItemColor.. "|TInterface\\Icons\\inv_misc_food_15.png:0|t ".. ItemName
+            text = text .."    ".. ItemColor.. ItemName
         end
     end
 
