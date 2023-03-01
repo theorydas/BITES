@@ -61,7 +61,7 @@ function BitesCookBook:BuildTooltipForReagent(ReagentID)
                 text = text .. "-".. BitesCookBook.TextColors["Orange"].. FirstRangeText.. "|r"
 
                 if ShowLevelRange then
-                    text = text.. "|r-".. BitesCookBook.TextColors["Yellow"].. RankingRange[2].. "|r-".. BitesCookBook.TextColors["Green"].. RankingRange[3].. "|r-".. BitesCookBook.TextColors["Gray"].. RankingRange[4].. "|r-"
+                    text = text.. "|r-".. BitesCookBook.TextColors["Yellow"].. RankingRange[2].. "|r-".. BitesCookBook.TextColors["Green"].. RankingRange[3].. "|r-".. BitesCookBook.TextColors["Gray"].. RankingRange[4].. "|r"
                 end
             end
             
