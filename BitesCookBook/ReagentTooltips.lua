@@ -55,6 +55,7 @@ function BitesCookBook:BuildTooltipForReagent(ReagentID)
             local ShowLevelRange = BitesCookBook.Options.ShowCraftableRankRange
             
             if ShowFirstLevel then
+                local RankingRange = BitesCookBook.Recipes[RecipeID]["Range"]
                 local FirstRangeText = RankingRange[1] > 1 and RankingRange[1] or Locale["Starter"]
 
                 -- When the first rank is 1, it's a starter recipe.
