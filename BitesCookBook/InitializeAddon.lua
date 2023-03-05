@@ -11,7 +11,7 @@ BitesCookBook.Options = {
     MaxRankCategory = 4, -- The maximum rank category to show in the reagent tooltip.
 	ShowCraftableTooltip = false, -- In the craftable tooltip, show required reagents.
 	ShowEnemyTooltip = true, -- In the enemy tooltip, show droppable reagents.
-        ColorDropsByRank = false, -- In the enemy tooltip, color the reagents by the highest ranked recipe that uses it.
+        ColorDropsByRank = true, -- In the enemy tooltip, color the reagents by the highest ranked recipe that uses it.
 	HasModifier = 0, -- 0 = no modifier, true = has modifier, false = has inverse modifier
     ModifierKey = "SHIFT", -- SHIFT, ALT, CTRL
 }
