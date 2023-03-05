@@ -43,6 +43,7 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
     local text = ""
     
     -- Cycle through all materials in a recipe to create the tooltip.
+    local ItemCount = 0
     for i, ReagentID in ipairs(Enemy) do
         local ItemName = BitesCookBook:GetItemNameByID(ReagentID)
         local ItemColor = BitesCookBook:GetDropColor(ReagentID)
@@ -50,8 +51,9 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
         -- The first recipe is the highest ranked one.
         local HighestRecipeID = BitesCookBook.CraftablesForReagent[ReagentID][1]
         if BitesCookBook:IsRecipeInRange(HighestRecipeID) then
+            ItemCount = ItemCount + 1
             -- Show the item's texture.
-            if i > 1 then
+            if ItemCount > 1 then
                 text = text.. "\n"
             end
             -- Decide which icon, if any, we want to show.
