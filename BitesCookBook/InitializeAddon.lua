@@ -30,8 +30,11 @@ function BitesCookBook.ADDON_LOADED(self, event, addonName)
     -- We keep track of the player's locale/language.
     BitesCookBook.ClientLocale = GetLocale()
 
-    -- The addon-loading event is unregistered.
-    BitesCookBook:UnregisterEvent(event)
+    -- We should cache all the item names by loading the items ones.
+    -- This prevent the tooltips from appearing empty when the player first opens them.
+    -- TODO: Is it at all possible to simply wait for an item to load. Can we pause script execution?
+    BitesCookBook:CacheItems(BitesCookBook.Recipes, BitesCookBook.Reagents)
+    BitesCookBook:UnregisterEvent(event) -- Finally, the addon-loading event is unregistered.
 end
 
 function BitesCookBook.PLAYER_ENTERING_WORLD(BitesCookBook, event)
@@ -60,6 +63,17 @@ BitesCookBook:SetScript("OnEvent", BitesCookBook.OnEvent)
 --------------------------------------------------------------------------------
 -- Helper functions
 --------------------------------------------------------------------------------
+
+function BitesCookBook:CacheItems(RecipeList, ReagentList)
+    -- We load every item in the recipe and reagent lists to cache their names.
+    for ID, _ in pairs(RecipeList) do
+        GetItemInfo(ID)
+    end
+
+    for ID, _ in pairs(ReagentList) do
+        GetItemInfo(ID)
+    end
+end
 
 function BitesCookBook:GetAllIngredients(RecipeList)
     -- Dynamically create a list for all ingredients and their associated recipes.
