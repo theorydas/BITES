@@ -61,6 +61,10 @@ function BitesCookBook:BuildTooltipForEnemy(EnemyID)
         end
     end
 
+    if text ~= "" then
+        text = Locale["IngredientFor:"].. text
+    end
+
     return text
 end
 -- The options can be like: Show icon (if only one, they are in a line), show name and both can be up the same time...
